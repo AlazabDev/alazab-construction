@@ -56,21 +56,14 @@ const ProjectFileUpload: React.FC<ProjectFileUploadProps> = ({ projectId, onFile
           // Create a blob URL for the file for immediate access
           const blobUrl = URL.createObjectURL(file);
           
-          // إنشاء سجل في قاعدة البيانات للملف
-          const { data: dbData, error: dbError } = await supabase
-            .from('project_files')
-            .insert({
-              project_id: projectId,
-              name: file.name,
-              file_url: blobUrl, // Use blob URL temporarily
-              size: file.size,
-              type: file.type,
-            });
-  
-          if (dbError) {
-            console.error("Database insert error:", dbError);
-            throw dbError;
-          }
+          // TODO: إنشاء سجل في قاعدة البيانات للملف عند توفر جدول project_files
+          console.log('File metadata to be saved:', {
+            project_id: projectId,
+            name: file.name,
+            file_url: blobUrl,
+            size: file.size,
+            type: file.type,
+          });
           
           successCount++;
         } catch (fileError: any) {

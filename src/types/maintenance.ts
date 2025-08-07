@@ -4,6 +4,7 @@ export interface MaintenanceRequest {
   branch: string;
   serviceType: string;
   title: string;
+  location: string; // Add required location field
   
   // تفاصيل الطلب - الخطوة 2
   description: string;
@@ -44,6 +45,31 @@ export interface MaintenanceRequestDetails {
   actual_cost: string | null;
   created_at: string;
   completion_date: string | null;
+  requester_name?: string;
+  requester_phone?: string;
+  requester_email?: string;
+  location?: string;
+}
+
+// Interface for request details page
+export interface RequestDetails {
+  id: string;
+  request_number?: string;
+  title: string;
+  description: string;
+  branch?: string;
+  service_type: string;
+  priority: string;
+  status: string;
+  scheduled_date: string;
+  estimated_cost: string | null;
+  actual_cost: string | null;
+  created_at: string;
+  completion_date: string | null;
+  requester_name: string;
+  requester_phone: string;
+  requester_email: string;
+  location: string;
 }
 
 export interface AttachmentDetails {

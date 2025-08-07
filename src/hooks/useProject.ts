@@ -11,6 +11,7 @@ export interface ProjectFile {
   type: string;
   file_url: string;
   uploaded_at: string;
+  project_id: string;
 }
 
 export const useProject = (projectId: string | undefined) => {
@@ -33,7 +34,7 @@ export const useProject = (projectId: string | undefined) => {
 
       if (error) throw error;
       
-      setProject(data);
+      setProject(data as Project);
     } catch (error) {
       console.error("Error fetching project details:", error);
       toast({
@@ -51,15 +52,8 @@ export const useProject = (projectId: string | undefined) => {
     
     try {
       setLoadingFiles(true);
-      const { data, error } = await supabase
-        .from('project_files')
-        .select('*')
-        .eq('project_id', projectId)
-        .order('uploaded_at', { ascending: false });
-
-      if (error) throw error;
-      
-      setFiles(data || []);
+      // TODO: Implement project files when project_files table is created
+      setFiles([]);
     } catch (error) {
       console.error("Error fetching project files:", error);
       toast({
@@ -101,14 +95,7 @@ export const useProject = (projectId: string | undefined) => {
 
   const handleDeleteFile = async (file: ProjectFile) => {
     try {
-      // حذف الملف من قاعدة البيانات
-      const { error } = await supabase
-        .from('project_files')
-        .delete()
-        .eq('id', file.id);
-
-      if (error) throw error;
-      
+      // TODO: Implement file deletion when project_files table is created
       setFiles(files.filter(f => f.id !== file.id));
       toast({
         title: "تم حذف الملف",

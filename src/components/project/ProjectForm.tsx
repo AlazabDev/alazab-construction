@@ -25,13 +25,13 @@ const projectFormSchema = z.object({
   }),
   category: z.string({
     required_error: "يرجى اختيار فئة المشروع",
-  }),
+  }).optional(),
   location: z.string().min(2, {
     message: "يرجى إدخال موقع المشروع",
-  }),
+  }).optional(),
   image: z.string().url({
     message: "يرجى إدخال رابط صورة صالح"
-  }),
+  }).optional(),
   description: z.string().min(10, {
     message: "يجب أن يكون الوصف بطول 10 أحرف على الأقل",
   }).optional(),
@@ -40,6 +40,11 @@ const projectFormSchema = z.object({
     message: "يرجى إدخال رابط نموذج ثلاثي الأبعاد صالح" 
   }).optional().or(z.literal('')),
   progress: z.coerce.number().min(0).max(100).optional(),
+  client_name: z.string().optional(),
+  budget: z.coerce.number().optional(),
+  area: z.string().optional(),
+  engineer_name: z.string().optional(),
+  work_type: z.string().optional(),
 });
 
 // تعريف نوع البيانات مع استخراج النوع من مخطط Zod
@@ -71,6 +76,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
       status: initialData?.status || "جديد",
       model3d_url: initialData?.model3d_url || "",
       progress: initialData?.progress || 0,
+      client_name: initialData?.client_name || "",
+      budget: initialData?.budget || 0,
+      area: initialData?.area || "",
+      engineer_name: initialData?.engineer_name || "",
+      work_type: initialData?.work_type || "",
     },
   });
 
@@ -93,7 +103,21 @@ const ProjectForm: React.FC<ProjectFormProps> = ({
         // إضافة مشروع جديد
         const { data: insertedData, error } = await supabase
           .from('projects')
-          .insert(data)
+          .insert({
+            name: data.name,
+            category: data.category || null,
+            location: data.location || null,
+            image: data.image || null,
+            description: data.description || null,
+            status: data.status || null,
+            model3d_url: data.model3d_url || null,
+            progress: data.progress || null,
+            client_name: data.client_name || null,
+            budget: data.budget || null,
+            area: data.area || null,
+            engineer_name: data.engineer_name || null,
+            work_type: data.work_type || null,
+          })
           .select();
 
         if (error) throw error;
