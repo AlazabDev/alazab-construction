@@ -25,32 +25,32 @@ const Footer: React.FC = () => {
             <h3 className="text-xl font-bold mb-4">روابط سريعة</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/" className="text-construction-light hover:text-white transition-colors">
+                <Link to="/" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
                   الرئيسية
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-construction-light hover:text-white transition-colors">
+                <Link to="/about" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
                   من نحن
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-construction-light hover:text-white transition-colors">
+                <Link to="/services" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
                   خدماتنا
                 </Link>
               </li>
               <li>
-                <Link to="/projects" className="text-construction-light hover:text-white transition-colors">
+                <Link to="/projects" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
                   مشاريعنا
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-construction-light hover:text-white transition-colors">
+                <Link to="/contact" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
                   اتصل بنا
                 </Link>
               </li>
               <li>
-                <Link to="/ceo" className="text-construction-light hover:text-white transition-colors">
+                <Link to="/ceo" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
                   محمد عزب - المدير التنفيذي
                 </Link>
               </li>
@@ -94,10 +94,10 @@ const Footer: React.FC = () => {
               
               <div className="pt-2">
                 <p className="text-sm">
-                  البريد الإلكتروني: <a href="mailto:support@al-azab.co" className="hover:text-white">support@al-azab.co</a>
+                  البريد الإلكتروني: <a href="mailto:support@al-azab.co" className="hover:text-construction-accent transition-colors duration-300">support@al-azab.co</a>
                 </p>
                 <p className="text-sm">
-                  الموقع الإلكتروني: <a href="https://al-azab.co" target="_blank" rel="noopener noreferrer" className="hover:text-white">al-azab.co</a>
+                  الموقع الإلكتروني: <a href="https://al-azab.co" target="_blank" rel="noopener noreferrer" className="hover:text-construction-accent transition-colors duration-300">al-azab.co</a>
                 </p>
               </div>
             </div>
