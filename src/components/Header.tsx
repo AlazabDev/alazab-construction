@@ -63,7 +63,7 @@ const Header: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-base font-medium transition-colors hover:text-construction-primary focus:outline-none focus:ring-2 focus:ring-construction-primary rounded px-2 py-1 ${
+                className={`text-base font-medium transition-colors hover:text-construction-primary focus:outline-none focus:ring-2 focus:ring-construction-primary rounded px-2 py-1 whitespace-nowrap ${
                   isActive(item.href) 
                     ? 'text-construction-primary border-b-2 border-construction-primary pb-1' 
                     : 'text-gray-700'
@@ -75,6 +75,26 @@ const Header: React.FC = () => {
               </Link>
             ))}
           </nav>
+
+          {/* Mobile Marquee Navigation */}
+          <div className="md:hidden absolute left-4 right-20 top-1/2 transform -translate-y-1/2 overflow-hidden">
+            <div className="flex animate-marquee whitespace-nowrap">
+              {[...navigationItems, ...navigationItems].map((item, index) => (
+                <Link
+                  key={`${item.name}-${index}`}
+                  to={item.href}
+                  className={`inline-block mx-6 text-sm font-medium transition-colors ${
+                    isActive(item.href) 
+                      ? 'text-construction-primary' 
+                      : 'text-gray-700'
+                  }`}
+                >
+                  {item.name === 'الشات بوت' && <MessageSquare className="w-3 h-3 inline ml-1" aria-hidden="true" />}
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
 
           {/* CTA Buttons and Sidebar Toggle */}
           <div className="flex items-center gap-4">
