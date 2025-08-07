@@ -52,11 +52,12 @@ const ProjectManagement: React.FC = () => {
         if (error) throw error;
           
         if (projects) {
+          const validProjects = projects;
           const stats: ProjectStats = {
-            total: projects.length,
-            active: projects.filter(p => p.status === 'قيد التنفيذ').length,
-            completed: projects.filter(p => p.status === 'مكتمل').length,
-            upcoming: projects.filter(p => p.status === 'جديد' || !p.status).length
+            total: validProjects.length,
+            active: validProjects.filter(p => p.status === 'قيد التنفيذ').length,
+            completed: validProjects.filter(p => p.status === 'مكتمل').length,
+            upcoming: validProjects.filter(p => p.status === 'جديد' || !p.status).length
           };
           
           setProjectStats(stats);

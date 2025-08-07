@@ -34,7 +34,11 @@ const MaintenanceTracking: React.FC = () => {
     setIsLoading(true);
     try {
       const details = await fetchMaintenanceRequest(requestNumber);
-      setRequestDetails(details);
+      setRequestDetails({
+        ...details,
+        request_number: details.request_number || requestNumber,
+        branch: details.branch || ''
+      });
       
       const attachmentsList = await fetchAttachments(requestNumber);
       setAttachments(attachmentsList);

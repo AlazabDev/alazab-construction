@@ -70,7 +70,11 @@ const MaintenanceReports: React.FC = () => {
         completedRequests: completed
       });
 
-      setRecentRequests(requests || []);
+      setRecentRequests((requests || []).map(req => ({
+        ...req,
+        location: req.location || '',
+        attachments: []
+      })));
     } catch (error) {
       console.error('Error fetching data:', error);
       toast({

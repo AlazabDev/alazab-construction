@@ -46,7 +46,13 @@ const MaintenanceRequestDetails: React.FC = () => {
         .single();
 
       if (error) throw error;
-      setRequestDetails(data);
+        setRequestDetails({
+          ...data,
+          requester_name: data.requester_name || '',
+          requester_phone: data.requester_phone || '',
+          requester_email: data.requester_email || '',
+          location: data.location || ''
+        });
     } catch (error) {
       console.error('Error fetching request details:', error);
       toast({

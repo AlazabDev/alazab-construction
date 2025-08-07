@@ -53,7 +53,7 @@ export const useDashboardData = () => {
 
         if (maintenanceQuery.error) throw maintenanceQuery.error;
 
-        const projects = (projectsQuery.data as Project[]) || [];
+        const projects = (projectsQuery.data || []) as Project[];
         const maintenance = (maintenanceQuery.data as MaintenanceRequest[]) || [];
 
         // حساب الإحصائيات

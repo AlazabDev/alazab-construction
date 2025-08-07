@@ -27,6 +27,7 @@ const MaintenancePage: React.FC = () => {
     branch: '',
     serviceType: '',
     title: '',
+    location: '',
     description: '',
     priority: '',
     requestedDate: '',
