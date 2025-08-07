@@ -90,22 +90,35 @@ const ProjectsPage: React.FC = () => {
         </p>
       </div>
       
+      {/* قسم البطل */}
+      <div className="relative bg-gradient-to-br from-construction-primary via-construction-dark to-construction-accent text-white py-16 mb-12 rounded-3xl overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative z-10 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">مشاريعنا المتميزة</h2>
+          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            نفخر بتقديم مشاريع استثنائية تجمع بين الإبداع والجودة العالية في جميع أنحاء المملكة
+          </p>
+        </div>
+        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
+        <div className="absolute -top-10 -left-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+      </div>
+
       {/* أدوات البحث والتصفية */}
-      <div className="bg-gray-50 p-4 rounded-lg mb-8">
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 p-6 rounded-2xl mb-8 shadow-sm border border-gray-200">
         <div className="flex flex-col md:flex-row gap-4 items-center">
           <div className="relative w-full md:w-1/2">
-            <Search className="absolute top-1/2 transform -translate-y-1/2 right-3 text-gray-400" size={18} />
+            <Search className="absolute top-1/2 transform -translate-y-1/2 right-3 text-construction-primary" size={18} />
             <Input 
               placeholder="ابحث عن مشروع..." 
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pr-10"
+              className="pr-10 border-construction-primary/20 focus:border-construction-primary focus:ring-construction-primary/20"
             />
           </div>
           
           <div className="w-full md:w-1/4">
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger>
+              <SelectTrigger className="border-construction-primary/20 focus:border-construction-primary focus:ring-construction-primary/20">
                 <SelectValue placeholder="اختر الفئة" />
               </SelectTrigger>
               <SelectContent>
@@ -122,7 +135,7 @@ const ProjectsPage: React.FC = () => {
               variant={viewMode === 'grid' ? "default" : "outline"}
               size="sm"
               onClick={() => setViewMode('grid')}
-              className={viewMode === 'grid' ? "bg-construction-primary" : ""}
+              className={viewMode === 'grid' ? "bg-construction-primary hover:bg-construction-dark" : "border-construction-primary/20 text-construction-primary hover:bg-construction-primary hover:text-white"}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="7" height="7"></rect>
@@ -135,7 +148,7 @@ const ProjectsPage: React.FC = () => {
               variant={viewMode === 'list' ? "default" : "outline"}
               size="sm"
               onClick={() => setViewMode('list')}
-              className={viewMode === 'list' ? "bg-construction-primary" : ""}
+              className={viewMode === 'list' ? "bg-construction-primary hover:bg-construction-dark" : "border-construction-primary/20 text-construction-primary hover:bg-construction-primary hover:text-white"}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="8" y1="6" x2="21" y2="6"></line>
@@ -164,64 +177,105 @@ const ProjectsPage: React.FC = () => {
           {filteredProjects.map((project) => (
             viewMode === 'grid' ? (
               <Link to={`/projects/${project.id}`} key={project.id}>
-                <div className="project-card group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow">
-                  <img 
-                    src={project.image || '/placeholder.svg'} 
-                    alt={project.name} 
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6">
-                    <h3 className="text-white text-xl font-bold mb-2 group-hover:text-construction-accent transition-colors">{project.name}</h3>
-                    <div className="flex items-center gap-1 mb-2 text-gray-200">
-                      <MapPin size={16} />
-                      <p className="text-sm">{project.location}</p>
-                    </div>
+                <div className="project-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                  <div className="relative overflow-hidden">
+                    <img 
+                      src={project.image || '/placeholder.svg'} 
+                      alt={project.name} 
+                      className="w-full h-64 object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent"></div>
+                    
+                    {/* شارة الفئة */}
                     {project.category && (
-                      <div className="bg-construction-accent text-white text-xs py-1 px-3 rounded-full absolute top-4 left-4">
+                      <div className="absolute top-4 left-4 bg-construction-accent/90 backdrop-blur-sm text-white text-xs font-medium py-2 px-3 rounded-full border border-white/20">
                         {project.category}
                       </div>
                     )}
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="self-start bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white hover:text-construction-primary transition-colors mt-2"
-                    >
-                      عرض التفاصيل
-                      <ArrowLeft className="mr-1" size={14} />
-                    </Button>
+                    
+                    {/* المحتوى */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6">
+                      <h3 className="text-white text-xl font-bold mb-3 group-hover:text-construction-accent transition-colors duration-300">
+                        {project.name}
+                      </h3>
+                      
+                      <div className="flex items-center gap-2 mb-3 text-gray-200">
+                        <div className="p-1 bg-white/10 rounded-full">
+                          <MapPin size={14} />
+                        </div>
+                        <p className="text-sm font-medium">{project.location}</p>
+                      </div>
+                      
+                      {project.description && (
+                        <p className="text-gray-300 text-sm mb-4 line-clamp-2 leading-relaxed">
+                          {project.description}
+                        </p>
+                      )}
+                      
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="self-start bg-white/15 backdrop-blur-md text-white border-white/30 hover:bg-construction-primary hover:border-construction-primary transition-all duration-300 font-medium"
+                      >
+                        عرض التفاصيل
+                        <ArrowLeft className="mr-2" size={14} />
+                      </Button>
+                    </div>
+                    
+                    {/* تأثير الإضاءة */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-construction-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   </div>
                 </div>
               </Link>
             ) : (
-              <Card key={project.id} className="overflow-hidden transition-shadow hover:shadow-md">
+              <Card key={project.id} className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border border-gray-200 hover:border-construction-primary/30">
                 <CardContent className="p-0 flex flex-col md:flex-row">
-                  <div className="md:w-1/4 h-48 md:h-auto">
+                  <div className="md:w-1/3 h-56 md:h-auto relative overflow-hidden">
                     <img 
                       src={project.image || '/placeholder.svg'} 
                       alt={project.name} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                     />
+                    {project.category && (
+                      <div className="absolute top-4 left-4 bg-construction-accent text-white text-xs font-medium py-1 px-3 rounded-full">
+                        {project.category}
+                      </div>
+                    )}
                   </div>
-                  <div className="p-4 md:p-6 md:w-3/4 flex flex-col">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-                      <h3 className="text-xl font-bold text-construction-primary">{project.name}</h3>
-                      {project.category && (
-                        <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full mt-1 md:mt-0">
-                          {project.category}
+                  <div className="p-6 md:w-2/3 flex flex-col">
+                    <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-3">
+                      <h3 className="text-xl font-bold text-construction-primary mb-2 md:mb-0 hover:text-construction-dark transition-colors">
+                        {project.name}
+                      </h3>
+                    </div>
+                    
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <div className="p-1 bg-construction-primary/10 rounded-full">
+                        <MapPin size={14} className="text-construction-primary" />
+                      </div>
+                      <span className="text-sm font-medium">{project.location}</span>
+                    </div>
+                    
+                    {project.description && (
+                      <p className="text-gray-600 line-clamp-3 mb-4 leading-relaxed">
+                        {project.description}
+                      </p>
+                    )}
+                    
+                    <div className="flex items-center justify-between mt-auto">
+                      <Link to={`/projects/${project.id}`}>
+                        <Button size="sm" className="bg-construction-primary hover:bg-construction-dark transition-all duration-300 font-medium">
+                          عرض التفاصيل
+                          <ArrowLeft className="mr-2" size={14} />
+                        </Button>
+                      </Link>
+                      
+                      {project.client_name && (
+                        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                          العميل: {project.client_name}
                         </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-1 text-gray-600 mb-2">
-                      <MapPin size={16} />
-                      <span className="text-sm">{project.location}</span>
-                    </div>
-                    <p className="text-gray-600 line-clamp-2 mb-4">{project.description}</p>
-                    <Link to={`/projects/${project.id}`} className="mt-auto">
-                      <Button size="sm" className="bg-construction-primary hover:bg-construction-dark">
-                        عرض التفاصيل
-                        <ArrowLeft className="mr-1" size={14} />
-                      </Button>
-                    </Link>
                   </div>
                 </CardContent>
               </Card>
@@ -269,14 +323,23 @@ const ProjectsPage: React.FC = () => {
         </div>
       )}
       
-      <div className="mt-16 bg-gray-50 p-8 rounded-lg text-center">
-        <h3 className="text-xl font-bold text-construction-primary mb-3">هل لديك مشروع تود تنفيذه؟</h3>
-        <p className="text-gray-600 mb-4 max-w-lg mx-auto">
-          نحن في شركة العزب للمقاولات نقدم خدمات متكاملة في مجال المقاولات والبناء بأعلى معايير الجودة والدقة
+      <div className="mt-16 bg-gradient-to-r from-construction-primary/5 via-construction-accent/5 to-construction-primary/5 p-8 rounded-2xl text-center border border-construction-primary/10">
+        <h3 className="text-2xl font-bold text-construction-primary mb-4">هل لديك مشروع تود تنفيذه؟</h3>
+        <p className="text-gray-600 mb-6 max-w-2xl mx-auto text-lg leading-relaxed">
+          نحن في شركة العزب للمقاولات نقدم خدمات متكاملة في مجال المقاولات والبناء بأعلى معايير الجودة والدقة في جميع أنحاء المملكة العربية السعودية
         </p>
-        <Link to="/contact">
-          <Button className="bg-construction-primary hover:bg-construction-dark">تواصل معنا الآن</Button>
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Link to="/contact">
+            <Button className="bg-construction-primary hover:bg-construction-dark text-white px-8 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300">
+              تواصل معنا الآن
+            </Button>
+          </Link>
+          <Link to="/services">
+            <Button variant="outline" className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white px-8 py-3 rounded-xl font-medium transition-all duration-300">
+              استعرض خدماتنا
+            </Button>
+          </Link>
+        </div>
       </div>
     </PageLayout>
   );

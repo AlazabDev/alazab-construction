@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   const navigationItems = [
     { name: 'الرئيسية', href: '/' },
     { name: 'خدماتنا', href: '/services' },
-    { name: 'مشاريعنا', href: '/projects-gallery' },
+    { name: 'مشاريعنا', href: '/projects' },
     { name: 'من نحن', href: '/about' },
     { name: 'الشات بوت', href: '/chatbot' },
     { name: 'اتصل بنا', href: '/contact' },
