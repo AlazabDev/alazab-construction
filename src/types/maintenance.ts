@@ -57,7 +57,9 @@ export interface RequestDetails {
   request_number?: string;
   title: string;
   description: string;
-  branch?: string;
+  client_name: string;
+  client_email?: string;
+  client_phone?: string;
   service_type: string;
   priority: string;
   status: string;
@@ -66,9 +68,6 @@ export interface RequestDetails {
   actual_cost: string | null;
   created_at: string;
   completion_date: string | null;
-  requester_name: string;
-  requester_phone: string;
-  requester_email: string;
   location: string;
 }
 
@@ -94,21 +93,17 @@ export interface ServiceTypeData {
 export interface MaintenanceRequestDB {
   id?: string;
   title: string;
+  client_name: string;
   service_type: string;
   description: string;
+  location: string;
   priority: string;
-  scheduled_date: string;
+  preferred_date: string;
   estimated_cost: number | null;
   actual_cost?: number | null;
   status: string;
   created_at?: string;
   updated_at?: string;
-  store_id?: string | null;
-  created_by?: string | null;
-  updated_by?: string | null;
-  assigned_to?: string | null;
-  completion_date?: string | null;
-  is_deleted?: boolean;
 }
 
 // Database interface for attachments table
@@ -128,6 +123,6 @@ export interface MaintenanceRequestSummary {
   service_type: string;
   status: string;
   priority: string;
-  scheduled_date: string;
+  preferred_date: string;
   created_at: string;
 }

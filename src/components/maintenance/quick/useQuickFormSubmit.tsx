@@ -34,34 +34,21 @@ export const useQuickFormSubmit = () => {
       setIsSubmitting(true);
       console.log('useQuickFormSubmit: بدء الحفظ في قاعدة البيانات');
 
-      const uniqueId = Date.now().toString().slice(-6);
-      const reqNumber = `QMR-${uniqueId}`;
-      
-      const { data: storeData, error: storeError } = await supabase
-        .from('stores')
-        .select('id')
-        .eq('name', formData.branch)
-        .maybeSingle();
-
-      let storeId = null;
-      if (!storeError && storeData) {
-        storeId = storeData.id;
-      }
-
       const estimatedCost = formData.estimatedCost
         ? parseFloat(formData.estimatedCost)
         : null;
       
-      // إنشاء كائن البيانات بدون الحقول التي تسبب مشاكل
+      // إنشاء كائن البيانات المتوافق مع schema
       const requestData = {
         title: formData.title,
+        client_name: 'عميل سريع',
         service_type: formData.serviceType,
         description: formData.description,
+        location: formData.branch,
         priority: formData.priority,
-        scheduled_date: formData.requestedDate,
+        preferred_date: formData.requestedDate,
         estimated_cost: estimatedCost,
-        status: 'pending',
-        store_id: storeId
+        status: 'pending'
       };
 
       console.log('useQuickFormSubmit: بيانات الطلب المرسل', requestData);
@@ -78,50 +65,37 @@ export const useQuickFormSubmit = () => {
       
       console.log('useQuickFormSubmit: تم حفظ الطلب بنجاح', insertedRequest);
       
-      const requestId = insertedRequest && insertedRequest[0] ? insertedRequest[0].id : reqNumber;
+      const requestId = insertedRequest && insertedRequest[0] ? insertedRequest[0].id : '';
       
       // رفع المرفقات إذا وجدت
-      if (formData.attachments.length > 0) {
+      if (formData.attachments.length > 0 && requestId) {
         console.log('useQuickFormSubmit: بدء رفع المرفقات', formData.attachments.length);
         
         const uploadPromises = formData.attachments.map(async (file) => {
           const fileName = `${requestId}-${Date.now()}-${file.name}`;
-          const { data, error } = await supabase.storage
-            .from('maintenance-attachments')
-            .upload(fileName, file);
           
-          if (error) {
-            console.error('useQuickFormSubmit: خطأ في رفع المرفق:', error);
+          const attachmentData = {
+            request_id: requestId,
+            file_name: file.name,
+            file_path: fileName,
+            mime_type: file.type,
+            size_bytes: file.size
+          };
+          
+          const { error: attachError } = await supabase
+            .from('request_attachments')
+            .insert(attachmentData);
+          
+          if (attachError) {
+            console.error('useQuickFormSubmit: خطأ في حفظ المرفق:', attachError);
             return null;
           }
           
-          const fileUrl = supabase.storage
-            .from('maintenance-attachments')
-            .getPublicUrl(data?.path || '').data.publicUrl;
-          
-          return { path: data?.path, url: fileUrl };
+          return attachmentData;
         });
         
-        const uploadedFiles = await Promise.all(uploadPromises);
-        const validFiles = uploadedFiles.filter(Boolean);
-        
-        if (validFiles.length > 0) {
-          const attachmentsData = validFiles.map((file) => ({
-            request_id: requestId,
-            file_url: file?.url || '',
-            description: `مرفق للطلب ${formData.title}`
-          }));
-          
-          const { error: attachError } = await supabase
-            .from('attachments')
-            .insert(attachmentsData);
-            
-          if (attachError) {
-            console.error('useQuickFormSubmit: خطأ في حفظ بيانات المرفقات:', attachError);
-          } else {
-            console.log('useQuickFormSubmit: تم حفظ المرفقات بنجاح');
-          }
-        }
+        await Promise.all(uploadPromises);
+        console.log('useQuickFormSubmit: تم حفظ المرفقات بنجاح');
       }
       
       // إرسال البريد الإلكتروني

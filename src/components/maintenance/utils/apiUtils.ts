@@ -3,7 +3,6 @@ import { supabase } from '@/integrations/supabase/client';
 import { MaintenanceRequestDetails, AttachmentDetails } from '@/types/maintenance';
 
 export const fetchMaintenanceRequest = async (requestNumber: string) => {
-  // 先尝试简单查询，不使用join
   const { data: requestData, error: requestError } = await supabase
     .from('maintenance_requests')
     .select('*')
@@ -14,35 +13,21 @@ export const fetchMaintenanceRequest = async (requestNumber: string) => {
     throw new Error('لم يتم العثور على الطلب');
   }
   
-  // 分别查询商店信息
-  let branchName = "غير محدد";
-  if (requestData.store_id) {
-    const { data: storeData } = await supabase
-      .from('stores')
-      .select('name')
-      .eq('id', requestData.store_id)
-      .single();
-      
-    if (storeData) {
-      branchName = storeData.name;
-    }
-  }
-  
-  // 转换数据
+  // تحويل البيانات للصيغة المطلوبة
   const details: MaintenanceRequestDetails = {
     id: requestData.id,
     request_number: requestNumber,
     title: requestData.title,
-    description: requestData.description,
-    branch: branchName,
+    description: requestData.description || '',
+    branch: requestData.location || 'غير محدد',
     service_type: requestData.service_type,
-    priority: requestData.priority,
-    status: requestData.status,
-    scheduled_date: requestData.scheduled_date,
-    estimated_cost: null, // Not available in current database schema
+    priority: requestData.priority || 'medium',
+    status: requestData.status || 'pending',
+    scheduled_date: requestData.preferred_date,
+    estimated_cost: requestData.estimated_cost ? String(requestData.estimated_cost) : null,
     actual_cost: requestData.actual_cost ? String(requestData.actual_cost) : null,
     created_at: requestData.created_at,
-    completion_date: requestData.completion_date
+    completion_date: requestData.actual_completion
   };
   
   return details;
@@ -50,40 +35,44 @@ export const fetchMaintenanceRequest = async (requestNumber: string) => {
 
 export const fetchAttachments = async (requestNumber: string) => {
   const { data: attachmentsData, error: attachmentsError } = await supabase
-    .from('attachments')
+    .from('request_attachments')
     .select('*')
-    .eq('request_id', requestNumber)
-    .eq('is_deleted', false);
+    .eq('request_id', requestNumber);
   
   if (attachmentsError) {
     return [];
   }
   
-  return attachmentsData as AttachmentDetails[];
+  return (attachmentsData || []).map(att => ({
+    id: att.id,
+    file_url: att.file_path,
+    description: att.file_name || 'مرفق'
+  })) as AttachmentDetails[];
 };
 
 export const updateRequestStatus = async (requestId: string, newStatus: string) => {
+  const updateData: any = { status: newStatus };
+  
+  // إذا تم تعيين الحالة كمكتمل، قم بتعيين تاريخ الاكتمال
+  if (newStatus === 'completed') {
+    updateData.actual_completion = new Date().toISOString();
+  }
+  
   const { error } = await supabase
     .from('maintenance_requests')
-    .update({ status: newStatus })
+    .update(updateData)
     .eq('id', requestId);
   
   if (error) throw error;
   
-  // إذا تم تعيين الحالة كمكتمل، قم بتعيين تاريخ الاكتمال
-  if (newStatus === 'completed') {
-    await supabase
-      .from('maintenance_requests')
-      .update({ completion_date: new Date().toISOString() })
-      .eq('id', requestId);
-  }
+  // إضافة سجل تغيير الحالة - تأكد من تطابق الأنواع
+  const statusValue = newStatus as 'draft' | 'awaiting_vendor' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
   
-  // إضافة سجل تغيير الحالة
   await supabase
-    .from('request_status_log')
+    .from('request_status_history')
     .insert({
       request_id: requestId,
-      status: newStatus,
+      to_status: statusValue,
       note: `تم تغيير الحالة إلى ${getStatusText(newStatus)}`,
     });
 };

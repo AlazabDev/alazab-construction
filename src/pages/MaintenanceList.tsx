@@ -24,8 +24,7 @@ const MaintenanceList: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('maintenance_requests')
-        .select('id, title, service_type, status, priority, scheduled_date, created_at')
-        .eq('is_deleted', false)
+        .select('id, title, service_type, status, priority, preferred_date, created_at')
         .order('created_at', { ascending: false });
 
       if (error) throw error;

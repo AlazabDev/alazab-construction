@@ -25,23 +25,22 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ formData, updateFormData,
       setIsLoading(true);
       try {
         // جلب بيانات الفروع
-        const { data: storesData, error: storesError } = await supabase
-          .from('stores')
+        const { data: branchesData, error: branchesError } = await supabase
+          .from('branches')
           .select('id, name')
-          .eq('is_deleted', false);
+          .eq('is_active', true);
         
-        if (storesError) throw storesError;
+        if (branchesError) throw branchesError;
         
-        // جلب أنواع خدمات الصيانة
+        // جلب أنواع خدمات الصيانة من subcategories
         const { data: servicesData, error: servicesError } = await supabase
-          .from('maintenance_services')
-          .select('id, name, description')
-          .eq('is_active', true)
-          .eq('is_deleted', false);
+          .from('subcategories')
+          .select('id, name')
+          .eq('is_active', true);
         
         if (servicesError) throw servicesError;
         
-        setBranches(storesData || []);
+        setBranches(branchesData || []);
         setServiceTypes(servicesData || []);
 
         // عرض رسالة نجاح

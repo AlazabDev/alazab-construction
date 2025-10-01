@@ -71,35 +71,22 @@ const MaintenancePage: React.FC = () => {
       const reqNumber = `MR-${uniqueId}`;
       setRequestNumber(reqNumber);
 
-      // بحث عن معرّف الفرع المحدد
-      const { data: storeData, error: storeError } = await supabase
-        .from('stores')
-        .select('id')
-        .eq('name', formData.branch)
-        .maybeSingle();
-
-      let storeId = null;
-      if (!storeError && storeData) {
-        storeId = storeData.id;
-      }
-
       // تحويل estimatedCost من نص إلى رقم إذا كان موجوداً
       const estimatedCost = formData.estimatedCost
         ? parseFloat(formData.estimatedCost)
         : null;
       
-      // حفظ المعلومات في قاعدة البيانات مع تعطيل RLS مؤقتاً
+      // حفظ المعلومات في قاعدة البيانات
       const requestData: MaintenanceRequestDB = {
         title: formData.title,
+        client_name: 'عميل مجهول',
         service_type: formData.serviceType,
         description: formData.description,
+        location: formData.branch,
         priority: formData.priority,
-        scheduled_date: formData.requestedDate,
+        preferred_date: formData.requestedDate,
         estimated_cost: estimatedCost,
-        status: 'pending',
-        store_id: storeId,
-        created_at: new Date().toISOString(),
-        created_by: 'anonymous' // إضافة مستخدم افتراضي
+        status: 'pending'
       };
         
       const { data: insertedRequest, error: dbError } = await supabase
@@ -139,16 +126,16 @@ const MaintenancePage: React.FC = () => {
       const fileUrls = uploadedFiles.filter(Boolean).map(file => file?.url);
       
       // إضافة المرفقات إلى جدول المرفقات إذا وجدت
-      if (fileUrls.length > 0) {
-        const attachmentsData: AttachmentDB[] = fileUrls.map((url) => ({
+      if (uploadedFiles.length > 0) {
+        const attachmentsData = uploadedFiles.map((file) => ({
           request_id: requestId,
-          file_url: url || '',
-          description: `مرفق للطلب ${formData.title}`,
-          uploaded_at: new Date().toISOString()
+          file_name: file?.path?.split('/').pop() || 'file',
+          file_path: file?.path || '',
+          mime_type: 'application/octet-stream'
         }));
         
         const { error: attachError } = await supabase
-          .from('attachments')
+          .from('request_attachments')
           .insert(attachmentsData);
           
         if (attachError) {

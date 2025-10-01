@@ -24,26 +24,25 @@ export const useQuickFormData = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const { data: storesData, error: storesError } = await supabase
-          .from('stores')
+        const { data: branchesData, error: branchesError } = await supabase
+          .from('branches')
           .select('id, name')
-          .eq('is_deleted', false);
+          .eq('is_active', true);
         
-        if (storesError) throw storesError;
+        if (branchesError) throw branchesError;
         
         const { data: servicesData, error: servicesError } = await supabase
-          .from('maintenance_services')
-          .select('id, name, description')
-          .eq('is_active', true)
-          .eq('is_deleted', false);
+          .from('subcategories')
+          .select('id, name')
+          .eq('is_active', true);
         
         if (servicesError) throw servicesError;
         
-        setBranches(storesData || []);
+        setBranches(branchesData || []);
         setServiceTypes(servicesData || []);
 
         console.log('تم تحميل البيانات بنجاح:', { 
-          branches: storesData?.length, 
+          branches: branchesData?.length, 
           services: servicesData?.length 
         });
       } catch (error) {

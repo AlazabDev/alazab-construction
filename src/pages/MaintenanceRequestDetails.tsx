@@ -47,10 +47,17 @@ const MaintenanceRequestDetails: React.FC = () => {
 
       if (error) throw error;
         setRequestDetails({
-          ...data,
-          requester_name: data.requester_name || '',
-          requester_phone: data.requester_phone || '',
-          requester_email: data.requester_email || '',
+          id: data.id,
+          title: data.title,
+          service_type: data.service_type,
+          description: data.description || '',
+          priority: data.priority || 'medium',
+          status: data.status || 'pending',
+          scheduled_date: data.preferred_date || '',
+          created_at: data.created_at || '',
+          requester_name: data.client_name || '',
+          requester_phone: data.client_phone || '',
+          requester_email: data.client_email || '',
           location: data.location || ''
         });
     } catch (error) {

@@ -34,7 +34,33 @@ export const useProject = (projectId: string | undefined) => {
 
       if (error) throw error;
       
-      setProject(data as Project);
+      // تحويل البيانات لتتوافق مع نوع Project
+      const projectData: Project = {
+        id: data.id,
+        name: data.name,
+        description: data.description || null,
+        status: data.status || null,
+        start_date: data.start_date || null,
+        end_date: data.end_date || null,
+        created_at: data.created_at || null,
+        progress: data.progress || null,
+        client_name: data.client_name || null,
+        budget: data.budget || null,
+        model3d_url: null,
+        area: null,
+        assigned_to: null,
+        category: null,
+        engineer_name: null,
+        image: null,
+        location: data.location || null,
+        notes: null,
+        order_number: null,
+        project_number: null,
+        tags: null,
+        work_type: null
+      };
+      
+      setProject(projectData);
     } catch (error) {
       console.error("Error fetching project details:", error);
       toast({

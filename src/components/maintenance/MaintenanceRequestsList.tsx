@@ -86,16 +86,18 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
       if (newStatus === 'completed') {
         await supabase
           .from('maintenance_requests')
-          .update({ completion_date: new Date().toISOString() })
+          .update({ actual_completion: new Date().toISOString() })
           .eq('id', requestId);
       }
       
-      // إضافة سجل تغيير الحالة
+      // إضافة سجل تغيير الحالة - تأكد من تطابق الأنواع
+      const statusValue = newStatus as 'draft' | 'awaiting_vendor' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+      
       await supabase
-        .from('request_status_log')
+        .from('request_status_history')
         .insert({
           request_id: requestId,
-          status: newStatus,
+          to_status: statusValue,
           note: `تم تغيير الحالة إلى ${getStatusText(newStatus)}`,
         });
       
@@ -180,7 +182,7 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
               </TableCell>
               <TableCell>{request.priority}</TableCell>
               <TableCell>{formatDate(request.created_at)}</TableCell>
-              <TableCell>{formatDate(request.scheduled_date)}</TableCell>
+              <TableCell>{formatDate(request.preferred_date)}</TableCell>
               <TableCell className="space-y-2">
                 <div className="flex flex-wrap gap-2 items-center">
                   <Button
