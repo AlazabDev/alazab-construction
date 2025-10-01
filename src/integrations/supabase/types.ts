@@ -1584,7 +1584,87 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      appointments_protected: {
+        Row: {
+          appointment_date: string | null
+          appointment_time: string | null
+          created_at: string | null
+          created_by: string | null
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          description: string | null
+          duration_minutes: number | null
+          id: string | null
+          location: string | null
+          maintenance_request_id: string | null
+          notes: string | null
+          property_id: string | null
+          reminder_sent: boolean | null
+          status: string | null
+          title: string | null
+          updated_at: string | null
+          vendor_id: string | null
+        }
+        Insert: {
+          appointment_date?: string | null
+          appointment_time?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          customer_email?: never
+          customer_name?: never
+          customer_phone?: never
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string | null
+          location?: string | null
+          maintenance_request_id?: string | null
+          notes?: string | null
+          property_id?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+          vendor_id?: string | null
+        }
+        Update: {
+          appointment_date?: string | null
+          appointment_time?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          customer_email?: never
+          customer_name?: never
+          customer_phone?: never
+          description?: string | null
+          duration_minutes?: number | null
+          id?: string | null
+          location?: string | null
+          maintenance_request_id?: string | null
+          notes?: string | null
+          property_id?: string | null
+          reminder_sent?: boolean | null
+          status?: string | null
+          title?: string | null
+          updated_at?: string | null
+          vendor_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       calculate_distance: {
@@ -1652,6 +1732,14 @@ export type Database = {
       get_current_user_role: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_full_customer_info: {
+        Args: { appointment_id: string }
+        Returns: {
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+        }[]
       }
       get_user_role: {
         Args: Record<PropertyKey, never>
