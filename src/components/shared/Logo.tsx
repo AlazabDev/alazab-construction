@@ -23,9 +23,9 @@ const Logo: React.FC<LogoProps> = ({
           src={logoImage} 
           alt="شركة العزب للمقاولات المتكاملة" 
           className={`
-            ${variant === 'icon' ? 'h-10 w-auto' : ''}
-            ${variant === 'compact' ? 'h-12 w-auto' : ''}
-            ${variant === 'full' ? 'h-14 w-auto' : ''}
+            ${variant === 'icon' ? 'h-13 w-auto' : ''}
+            ${variant === 'compact' ? 'h-16 w-auto' : ''}
+            ${variant === 'full' ? 'h-18 w-auto' : ''}
             object-contain transition-transform duration-300 hover:scale-105
           `}
         />
