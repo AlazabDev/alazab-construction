@@ -27,11 +27,25 @@ const Hero: React.FC = () => {
             شركة العزب للمقاولات العامة، خبرة أكثر من 20 عامًا في المجال، نقدم خدمات متكاملة في البناء والتشييد بأعلى معايير الجودة
           </p>
           <div className="flex flex-wrap gap-4">
-            <Button className="bg-construction-accent hover:bg-construction-accent/90 text-white text-base px-6 py-3">
-              تواصل معنا
+            <Button className="bg-construction-accent hover:bg-construction-accent/90 text-white text-base px-6 py-3" asChild>
+              <a href="/contact">تواصل معنا</a>
             </Button>
-            <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/10 text-base px-6 py-3">
-              عرض المشاريع
+            <Button variant="outline" className="bg-transparent border-white text-white hover:bg-white/10 text-base px-6 py-3" asChild>
+              <a href="/projects">عرض المشاريع</a>
+            </Button>
+            <Button 
+              variant="outline" 
+              className="bg-construction-primary/20 border-construction-accent text-construction-accent hover:bg-construction-accent hover:text-white text-base px-6 py-3"
+              asChild
+            >
+              <a href="https://erp.alazab.com/apps" target="_blank" rel="noopener noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="3" y1="9" x2="21" y2="9"></line>
+                  <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                نظام ERP الإداري
+              </a>
             </Button>
           </div>
           
