@@ -23,9 +23,9 @@ const Logo: React.FC<LogoProps> = ({
           src={logoImage} 
           alt="العزب للمقاولات المتكاملة" 
           className={`
-            ${variant === 'icon' ? 'h-16 w-auto' : ''}
-            ${variant === 'compact' ? 'h-20 w-auto' : ''}
-            ${variant === 'full' ? 'h-22 w-auto' : ''}
+            ${variant === 'icon' ? 'h-14 w-auto' : ''}
+            ${variant === 'compact' ? 'h-18 w-auto' : ''}
+            ${variant === 'full' ? 'h-20 w-auto' : ''}
             object-contain transition-transform duration-300 hover:scale-105
           `}
         />
