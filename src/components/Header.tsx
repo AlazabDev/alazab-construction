@@ -40,24 +40,25 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white shadow-md fixed top-0 w-full z-50 border-b border-gray-100" role="banner">
-      <div className="container mx-auto px-4 lg:px-6">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo - Right Side */}
-          <div className="flex-shrink-0">
-            <Logo variant="full" showText={true} />
+    <header className="bg-white shadow-md fixed top-0 w-full z-50" role="banner">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <div className="fixed md:relative">
+            <Logo variant="full" showText={true} className="hidden md:flex" />
+            <Logo variant="icon" showText={false} className="md:hidden" />
           </div>
 
-          {/* Desktop Navigation - Center */}
-          <nav className="hidden lg:flex items-center gap-8 flex-1 justify-center" role="navigation" aria-label="التنقل الرئيسي">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="التنقل الرئيسي">
             {navigationItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-base font-semibold transition-all duration-300 hover:text-construction-accent focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-md px-3 py-2 whitespace-nowrap ${
+                className={`text-base font-medium transition-colors hover:text-construction-accent focus:outline-none focus:ring-2 focus:ring-construction-accent rounded px-2 py-1 whitespace-nowrap ${
                   isActive(item.href) 
-                    ? 'text-construction-accent' 
-                    : 'text-gray-700 hover:bg-gray-50'
+                    ? 'text-construction-accent border-b-2 border-construction-accent pb-1' 
+                    : 'text-gray-700'
                 }`}
                 aria-current={isActive(item.href) ? 'page' : undefined}
               >
@@ -67,28 +68,36 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          {/* Right Side Actions */}
-          <div className="flex items-center gap-3">
-            {/* Login Button - Desktop */}
-            <div className="hidden lg:flex">
-              <Link to="/auth">
-                <Button 
-                  variant="outline" 
-                  className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white transition-all duration-300 font-semibold px-5"
+          {/* Mobile Marquee Navigation */}
+          <div className="md:hidden absolute left-4 right-20 top-1/2 transform -translate-y-1/2 overflow-hidden">
+            <div className="flex animate-marquee whitespace-nowrap">
+              {[...navigationItems, ...navigationItems].map((item, index) => (
+                <Link
+                  key={`${item.name}-${index}`}
+                  to={item.href}
+                  className={`inline-block mx-6 text-sm font-medium transition-colors hover:text-construction-accent ${
+                    isActive(item.href) 
+                      ? 'text-construction-accent' 
+                      : 'text-gray-700'
+                  }`}
                 >
-                  تسجيل الدخول
-                </Button>
-              </Link>
+                  {item.name === 'الشات بوت' && <MessageSquare className="w-3 h-3 inline ml-1" aria-hidden="true" />}
+                  {item.name}
+                </Link>
+              ))}
             </div>
+          </div>
 
-            {/* ERP Link - Desktop */}
+          {/* CTA Buttons and Sidebar Toggle */}
+          <div className="flex items-center gap-4">
+            {/* ERP Link - Hidden on Mobile */}
             <a
               href="https://erp.alazab.com/apps"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-semibold shadow-sm hover:shadow-md"
+              className="hidden lg:flex items-center gap-2 px-4 py-2 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-medium text-sm shadow-md hover:shadow-lg"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="3" y1="9" x2="21" y2="9"></line>
                 <line x1="9" y1="21" x2="9" y2="9"></line>
@@ -96,67 +105,100 @@ const Header: React.FC = () => {
               نظام ERP
             </a>
 
-            {/* Menu Toggle - Mobile/Tablet */}
-            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <SheetTrigger asChild>
+            {/* Advanced Sidebar Toggle */}
+            {isMobile ? (
+              <Drawer open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                <DrawerTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"
+                    aria-label="فتح القائمة الجانبية"
+                  >
+                    <Menu className="h-5 w-5" aria-hidden="true" />
+                  </Button>
+                </DrawerTrigger>
+                <DrawerContent className="h-[85vh]">
+                  <AdvancedSidebar onClose={() => setIsSidebarOpen(false)} />
+                </DrawerContent>
+              </Drawer>
+            ) : (
+              <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+                <SheetTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"
+                    aria-label="فتح القائمة الجانبية"
+                  >
+                    <Menu className="h-5 w-5" aria-hidden="true" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-80 p-0">
+                  <AdvancedSidebar onClose={() => setIsSidebarOpen(false)} />
+                </SheetContent>
+              </Sheet>
+            )}
+
+            {/* Login Button */}
+            <div className="hidden md:flex">
+              <Link to="/auth">
                 <Button 
                   variant="outline" 
-                  size="icon" 
-                  className="lg:hidden border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white"
-                  aria-label={isMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+                  className="border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white focus:ring-2 focus:ring-construction-primary"
                 >
-                  <Menu className="h-5 w-5" aria-hidden="true" />
+                  تسجيل الدخول
                 </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-80">
-                <div className="flex flex-col h-full">
-                  <div className="mb-6">
-                    <Logo variant="full" showText={true} />
-                  </div>
-                  
-                  <nav className="flex flex-col gap-2 flex-1" role="navigation" aria-label="التنقل المتنقل">
-                    {navigationItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        onClick={() => setIsMenuOpen(false)}
-                        className={`text-base font-semibold transition-colors hover:text-construction-accent focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-lg px-4 py-3 ${
-                          isActive(item.href) 
-                            ? 'text-construction-accent bg-construction-accent/5' 
-                            : 'text-gray-700 hover:bg-gray-50'
-                        }`}
-                        aria-current={isActive(item.href) ? 'page' : undefined}
-                      >
-                        {item.name === 'الشات بوت' && <MessageSquare className="w-4 h-4 inline ml-1" aria-hidden="true" />}
-                        {item.name}
-                      </Link>
-                    ))}
-                  </nav>
-                  
-                  <div className="border-t pt-4 space-y-3 mt-auto">
-                    <Link to="/auth" onClick={() => setIsMenuOpen(false)}>
-                      <Button variant="outline" className="w-full border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white font-semibold">
-                        تسجيل الدخول
-                      </Button>
-                    </Link>
-                    <a
-                      href="https://erp.alazab.com/apps"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 px-4 py-2.5 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-semibold w-full"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="9" y1="21" x2="9" y2="9"></line>
-                      </svg>
-                      نظام ERP
-                    </a>
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+              </Link>
+            </div>
           </div>
+
+          {/* Mobile Menu Button */}
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="md:hidden"
+                aria-label={isMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+              >
+                <Menu className="h-6 w-6" aria-hidden="true" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <nav className="flex flex-col gap-6 mt-6" role="navigation" aria-label="التنقل المتنقل">
+                {navigationItems.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`text-lg font-medium transition-colors hover:text-construction-accent focus:outline-none focus:ring-2 focus:ring-construction-accent rounded px-2 py-1 ${
+                      isActive(item.href) 
+                        ? 'text-construction-accent' 
+                        : 'text-gray-700'
+                    }`}
+                    aria-current={isActive(item.href) ? 'page' : undefined}
+                  >
+                    {item.name === 'الشات بوت' && <MessageSquare className="w-4 h-4 inline ml-1" aria-hidden="true" />}
+                    {item.name}
+                  </Link>
+                ))}
+                
+                <div className="border-t pt-6 space-y-3">
+                  <Link to="/maintenance-request" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="w-full bg-construction-primary hover:bg-construction-dark text-white">
+                      طلب صيانة
+                    </Button>
+                  </Link>
+                  <Link to="/auth" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" className="w-full border-construction-primary text-construction-primary hover:bg-construction-primary hover:text-white">
+                      تسجيل الدخول
+                    </Button>
+                  </Link>
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
