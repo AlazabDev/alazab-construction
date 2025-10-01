@@ -4,6 +4,7 @@ import PageLayout from "../components/layout/PageLayout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Building, Award, Users, Target } from 'lucide-react';
+import Logo from '@/components/shared/Logo';
 
 const CEOPage: React.FC = () => {
   const [language, setLanguage] = useState<'ar' | 'en'>('ar');
@@ -72,17 +73,10 @@ const CEOPage: React.FC = () => {
     <PageLayout>
       <div className={language === 'ar' ? 'arabic-text' : 'english-text'}>
         {/* Header with company logos */}
-        <div className="bg-amber-600 text-white p-6 rounded-lg mb-8 flex justify-between items-center">
-          <img 
-            src="https://i.postimg.cc/sXVzB4MW/60-200PX.png" 
-            alt="Al-azab Logo English" 
-            className="h-12"
-          />
-          <img 
-            src="https://i.postimg.cc/ZYHRLCZZ/logo60en200.png" 
-            alt="Al-azab Logo Arabic" 
-            className="h-12"
-          />
+        <div className="bg-amber-600 text-white p-6 rounded-lg mb-8 flex justify-center items-center">
+          <div className="[&_img]:brightness-0 [&_img]:invert">
+            <Logo variant="full" linkTo="/" showText={true} className="[&_h1]:text-white [&_p]:text-white/90" />
+          </div>
         </div>
 
         {/* CEO Photo and Basic Info with Language Switch on opposite side */}

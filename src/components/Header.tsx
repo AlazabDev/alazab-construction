@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, Wrench, MessageSquare } from 'lucide-react';
+import { Menu, MessageSquare } from 'lucide-react';
 import { Button } from "@/components/ui/button";
+import Logo from "@/components/shared/Logo";
 import {
   Sheet,
   SheetContent,
@@ -43,19 +44,10 @@ const Header: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-lg p-2 transition-all duration-300 hover:bg-construction-light/20 fixed md:relative"
-            aria-label="العودة للصفحة الرئيسية - شركة العزب للمقاولات العامة"
-          >
-            <div className="w-12 h-12 bg-gradient-to-br from-construction-primary to-construction-secondary rounded-xl flex items-center justify-center shadow-lg">
-              <Wrench className="w-7 h-7 text-construction-accent" aria-hidden="true" />
-            </div>
-            <div className="hidden md:block">
-              <h1 className="text-xl font-bold text-construction-primary hover:text-construction-accent transition-colors duration-300">شركة العزب</h1>
-              <p className="text-sm text-gray-600 hover:text-construction-accent transition-colors duration-300">للمقاولات العامة</p>
-            </div>
-          </Link>
+          <div className="fixed md:relative">
+            <Logo variant="full" showText={true} className="hidden md:flex" />
+            <Logo variant="icon" showText={false} className="md:hidden" />
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="التنقل الرئيسي">

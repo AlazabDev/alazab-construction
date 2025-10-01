@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from './shared/Logo';
 
 const Footer: React.FC = () => {
   return (
@@ -9,7 +10,9 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-xl font-bold mb-4">شركة العزب للمقاولات</h3>
+            <div className="mb-4 [&_img]:brightness-0 [&_img]:invert">
+              <Logo variant="compact" linkTo="/" showText={true} className="[&_h1]:text-white [&_p]:text-construction-light" />
+            </div>
             <p className="text-construction-light mb-4 leading-relaxed">
               شركة رائدة في مجال المقاولات والإنشاءات، نقدم خدمات متكاملة بأعلى معايير الجودة والاحترافية.
             </p>

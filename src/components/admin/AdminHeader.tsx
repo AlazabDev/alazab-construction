@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bell, Settings, User, LogOut, Search, Menu } from 'lucide-react';
+import Logo from "@/components/shared/Logo";
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
@@ -38,22 +39,15 @@ export const AdminHeader: React.FC = () => {
       <div className="flex items-center justify-between px-6 py-4">
         {/* Right Side - Logo & Title */}
         <div className="flex items-center space-x-4 space-x-reverse">
-          <div className="flex items-center space-x-3 space-x-reverse">
-            <div 
-              className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-lg"
-              style={{ backgroundColor: 'var(--azab-primary)' }}
+          <Logo variant="compact" linkTo="/admin-dashboard" showText={false} />
+          <div>
+            <h1 
+              className="text-xl font-bold"
+              style={{ color: 'var(--azab-primary)' }}
             >
-              ع
-            </div>
-            <div>
-              <h1 
-                className="text-xl font-bold"
-                style={{ color: 'var(--azab-primary)' }}
-              >
-                لوحة تحكم المدير
-              </h1>
-              <p className="text-sm text-gray-500">شركة العزب للمقاولات</p>
-            </div>
+              لوحة تحكم المدير
+            </h1>
+            <p className="text-sm text-gray-500">شركة العزب للمقاولات</p>
           </div>
         </div>
 
