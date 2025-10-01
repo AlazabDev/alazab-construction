@@ -50,7 +50,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8" role="navigation" aria-label="التنقل الرئيسي">
+          <nav className="hidden md:flex items-center gap-4" role="navigation" aria-label="التنقل الرئيسي">
             {navigationItems.map((item) => (
               <Link
                 key={item.name}
@@ -95,9 +95,9 @@ const Header: React.FC = () => {
               href="https://erp.alazab.com/apps"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center gap-2 px-4 py-2 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-medium text-sm shadow-md hover:shadow-lg"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-construction-accent hover:bg-construction-accent/90 text-white rounded-lg transition-all duration-300 font-medium text-xs shadow-md hover:shadow-lg"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <line x1="3" y1="9" x2="21" y2="9"></line>
                 <line x1="9" y1="21" x2="9" y2="9"></line>

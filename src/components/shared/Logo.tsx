@@ -21,11 +21,11 @@ const Logo: React.FC<LogoProps> = ({
       <div className="relative">
         <img 
           src={logoImage} 
-          alt="شركة العزب للمقاولات المتكاملة" 
+          alt="العزب للمقاولات المتكاملة" 
           className={`
-            ${variant === 'icon' ? 'h-13 w-auto' : ''}
-            ${variant === 'compact' ? 'h-16 w-auto' : ''}
-            ${variant === 'full' ? 'h-18 w-auto' : ''}
+            ${variant === 'icon' ? 'h-16 w-auto' : ''}
+            ${variant === 'compact' ? 'h-20 w-auto' : ''}
+            ${variant === 'full' ? 'h-22 w-auto' : ''}
             object-contain transition-transform duration-300 hover:scale-105
           `}
         />
@@ -35,7 +35,7 @@ const Logo: React.FC<LogoProps> = ({
       {showText && variant !== 'icon' && (
         <div className="flex flex-col leading-none">
           <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-construction-primary to-construction-accent bg-clip-text text-transparent leading-tight mb-1">
-            شركة العزب
+            العزب
           </h1>
           <p className="text-xs md:text-sm font-medium text-construction-dark/70 leading-tight tracking-wide">
             للمقاولات المتكاملة
@@ -50,7 +50,7 @@ const Logo: React.FC<LogoProps> = ({
       <Link 
         to={linkTo}
         className="focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-lg p-2 transition-all duration-300 hover:bg-construction-light/10"
-        aria-label="العودة للصفحة الرئيسية - شركة العزب للمقاولات المتكاملة"
+        aria-label="العودة للصفحة الرئيسية - العزب للمقاولات المتكاملة"
       >
         {content}
       </Link>
