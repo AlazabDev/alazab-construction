@@ -27,6 +27,8 @@ const ProjectsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
   
   // إحضار المشاريع من قاعدة البيانات
   useEffect(() => {
@@ -81,6 +83,18 @@ const ProjectsPage: React.FC = () => {
       return matchesSearch && matchesCategory;
     });
   }, [projects, searchTerm, selectedCategory]);
+
+  // حساب المشاريع المعروضة حسب الصفحة الحالية
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const paginatedProjects = React.useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProjects.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProjects, currentPage]);
+
+  // إعادة تعيين الصفحة عند تغيير البحث أو الفئة
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCategory]);
 
   return (
     <PageLayout title="مشاريعنا">
@@ -169,12 +183,12 @@ const ProjectsPage: React.FC = () => {
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-construction-primary"></div>
           <p className="mt-4 text-gray-600">جاري تحميل المشاريع...</p>
         </div>
-      ) : filteredProjects.length > 0 ? (
+      ) : paginatedProjects.length > 0 ? (
         <div className={viewMode === 'grid' 
           ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" 
           : "flex flex-col gap-4"
         }>
-          {filteredProjects.map((project) => (
+          {paginatedProjects.map((project) => (
             viewMode === 'grid' ? (
               <Link to={`/projects/${project.id}`} key={project.id}>
                 <div className="project-card group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
@@ -307,19 +321,46 @@ const ProjectsPage: React.FC = () => {
       )}
       
       {/* التنقل بين الصفحات */}
-      {filteredProjects.length > 0 && (
-        <div className="flex justify-center mt-12">
-          <div className="flex gap-2">
-            <Button variant="outline" size="icon" disabled>
+      {filteredProjects.length > 0 && totalPages > 1 && (
+        <div className="flex flex-col items-center gap-4 mt-12">
+          <div className="flex gap-2 flex-wrap justify-center">
+            <Button 
+              variant="outline" 
+              size="icon" 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+              className="hover:bg-construction-primary hover:text-white"
+            >
               <ArrowRight size={16} />
             </Button>
-            <Button variant="outline" className="bg-construction-primary text-white">1</Button>
-            <Button variant="outline">2</Button>
-            <Button variant="outline">3</Button>
-            <Button variant="outline" size="icon">
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <Button 
+                key={page}
+                variant="outline" 
+                onClick={() => setCurrentPage(page)}
+                className={currentPage === page 
+                  ? "bg-construction-primary text-white hover:bg-construction-dark" 
+                  : "hover:bg-construction-primary/10"
+                }
+              >
+                {page}
+              </Button>
+            ))}
+            
+            <Button 
+              variant="outline" 
+              size="icon"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+              className="hover:bg-construction-primary hover:text-white"
+            >
               <ArrowLeft size={16} />
             </Button>
           </div>
+          <p className="text-sm text-gray-600">
+            صفحة {currentPage} من {totalPages} ({filteredProjects.length} مشروع)
+          </p>
         </div>
       )}
       

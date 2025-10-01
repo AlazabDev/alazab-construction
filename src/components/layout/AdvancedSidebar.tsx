@@ -99,6 +99,7 @@ const applicationsSections: SidebarSection[] = [
     title: "تطبيقات الشركة",
     expandable: true,
     items: [
+      { title: "نظام ERP المتكامل", href: "https://erp.alazab.com/apps", icon: Building, description: "نظام إدارة موارد المؤسسة الشامل", external: true, badge: "رئيسي" },
       { title: "الأصول", href: "https://alazab.com/assets", icon: Database, description: "إدارة أصول الشركة", external: true },
       { title: "منشئ المواقع", href: "https://alazab.com/builder", icon: Hammer, description: "أداة بناء المواقع", external: true },
       { title: "إدارة العملاء", href: "https://alazab.com/crm", icon: UserCircle, description: "نظام إدارة علاقات العملاء", external: true },
