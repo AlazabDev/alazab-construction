@@ -33,11 +33,11 @@ const Logo: React.FC<LogoProps> = ({
 
       {/* Text - Only show if showText is true and not icon variant */}
       {showText && variant !== 'icon' && (
-        <div className="flex flex-col leading-none">
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-construction-primary to-construction-accent bg-clip-text text-transparent leading-tight mb-1">
+        <div className="flex flex-col">
+          <h1 className="text-xl font-bold text-construction-primary leading-tight">
             شركة العزب
           </h1>
-          <p className="text-xs md:text-sm font-medium text-construction-dark/70 leading-tight tracking-wide">
+          <p className="text-sm text-gray-600 leading-tight">
             للمقاولات المتكاملة
           </p>
         </div>
