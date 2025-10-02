@@ -1,10 +1,10 @@
 
 from . import __version__ as app_version
 
-app_name = "azab_template_refinement"
-app_title = "Al-Azab Template Refinement"
+app_name = "alazab_construction"
+app_title = "Al-Azab Construction"
 app_publisher = "Al-Azab Construction Company"
-app_description = "Template refinement system for Al-Azab construction projects"
+app_description = "Comprehensive construction management system for Al-Azab"
 app_email = "info@al-azab.co"
 app_license = "MIT"
 
@@ -12,15 +12,15 @@ app_license = "MIT"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/azab_template_refinement/css/azab_template_refinement.css"
-# app_include_js = "/assets/azab_template_refinement/js/azab_template_refinement.js"
+# app_include_css = "/assets/alazab_construction/css/alazab_construction.css"
+# app_include_js = "/assets/alazab_construction/js/alazab_construction.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/azab_template_refinement/css/azab_template_refinement.css"
-# web_include_js = "/assets/azab_template_refinement/js/azab_template_refinement.js"
+# web_include_css = "/assets/alazab_construction/css/alazab_construction.css"
+# web_include_js = "/assets/alazab_construction/js/alazab_construction.js"
 
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "azab_template_refinement/public/scss/website"
+# website_theme_scss = "alazab_construction/public/scss/website"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -55,20 +55,20 @@ app_license = "MIT"
 # Installation
 # ------------
 
-# before_install = "azab_template_refinement.install.before_install"
-# after_install = "azab_template_refinement.install.after_install"
+# before_install = "alazab_construction.install.before_install"
+# after_install = "alazab_construction.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "azab_template_refinement.uninstall.before_uninstall"
-# after_uninstall = "azab_template_refinement.uninstall.after_uninstall"
+# before_uninstall = "alazab_construction.uninstall.before_uninstall"
+# after_uninstall = "alazab_construction.uninstall.after_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "azab_template_refinement.notifications.get_notification_config"
+# notification_config = "alazab_construction.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -107,39 +107,39 @@ app_license = "MIT"
 
 # scheduler_events = {
 #	"all": [
-#		"azab_template_refinement.tasks.all"
+#		"alazab_construction.tasks.all"
 #	],
 #	"daily": [
-#		"azab_template_refinement.tasks.daily"
+#		"alazab_construction.tasks.daily"
 #	],
 #	"hourly": [
-#		"azab_template_refinement.tasks.hourly"
+#		"alazab_construction.tasks.hourly"
 #	],
 #	"weekly": [
-#		"azab_template_refinement.tasks.weekly"
+#		"alazab_construction.tasks.weekly"
 #	],
 #	"monthly": [
-#		"azab_template_refinement.tasks.monthly"
+#		"alazab_construction.tasks.monthly"
 #	],
 # }
 
 # Testing
 # -------
 
-# before_tests = "azab_template_refinement.install.before_tests"
+# before_tests = "alazab_construction.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "azab_template_refinement.event.get_events"
+#	"frappe.desk.doctype.event.event.get_events": "alazab_construction.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-#	"Task": "azab_template_refinement.task.get_dashboard_data"
+#	"Task": "alazab_construction.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -180,5 +180,5 @@ app_license = "MIT"
 # --------------------------------
 
 # auth_hooks = [
-#	"azab_template_refinement.auth.validate"
+#	"alazab_construction.auth.validate"
 # ]

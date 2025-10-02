@@ -5,15 +5,15 @@ include *.json
 include *.md
 include *.py
 include *.txt
-recursive-include azab_template_refinement *.css
-recursive-include azab_template_refinement *.csv
-recursive-include azab_template_refinement *.html
-recursive-include azab_template_refinement *.ico
-recursive-include azab_template_refinement *.js
-recursive-include azab_template_refinement *.json
-recursive-include azab_template_refinement *.md
-recursive-include azab_template_refinement *.png
-recursive-include azab_template_refinement *.py
-recursive-include azab_template_refinement *.svg
-recursive-include azab_template_refinement *.txt
-recursive-exclude azab_template_refinement *.pyc
+recursive-include alazab_construction *.css
+recursive-include alazab_construction *.csv
+recursive-include alazab_construction *.html
+recursive-include alazab_construction *.ico
+recursive-include alazab_construction *.js
+recursive-include alazab_construction *.json
+recursive-include alazab_construction *.md
+recursive-include alazab_construction *.png
+recursive-include alazab_construction *.py
+recursive-include alazab_construction *.svg
+recursive-include alazab_construction *.txt
+recursive-exclude alazab_construction *.pyc

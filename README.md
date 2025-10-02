@@ -1,73 +1,256 @@
-# Welcome to your Lovable project
+# Al-Azab Construction Management System
 
-## Project info
+نظام إدارة شامل لشركة العزب للمقاولات المتكاملة
 
-**URL**: https://lovable.dev/projects/99a02d6b-f056-49c3-91bf-97810d061851
+## نظرة عامة
 
-## How can I edit this code?
+تطبيق Frappe متكامل لإدارة:
+- المشاريع الإنشائية
+- طلبات الصيانة
+- الفواتير والمدفوعات
+- إدارة العملاء والموظفين
+- تتبع المواعيد والمهام
 
-There are several ways of editing your application.
+## بنية المشروع (البنية الثلاثية لـ Frappe)
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/99a02d6b-f056-49c3-91bf-97810d061851) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+alazab-construction/                    # المستوى الأول: المجلد الرئيسي
+├── alazab_construction/                # المستوى الثاني: مجلد التطبيق (Python Package)
+│   ├── __init__.py                     # معلومات الإصدار
+│   ├── hooks.py                        # إعدادات وخطافات Frappe
+│   ├── modules.txt                     # قائمة الموديولات
+│   ├── config/                         # المستوى الثالث: إعدادات إضافية
+│   │   └── docs.py
+│   ├── public/                         # المستوى الثالث: الملفات الثابتة
+│   │   ├── css/
+│   │   │   └── azab_theme.css
+│   │   └── js/
+│   │       ├── azab_about.js
+│   │       ├── azab_contact.js
+│   │       ├── azab_projects.js
+│   │       └── azab_services.js
+│   ├── templates/                      # المستوى الثالث: قوالب HTML
+│   │   ├── includes/
+│   │   │   └── azab_sidebar.html
+│   │   └── pages/
+│   │       ├── azab_about.html
+│   │       ├── azab_contact.html
+│   │       ├── azab_projects.html
+│   │       └── azab_services.html
+│   └── www/                            # المستوى الثالث: صفحات الويب العامة
+│       └── __init__.py
+├── setup.py                            # ملف تثبيت Python
+├── requirements.txt                    # متطلبات Python
+├── MANIFEST.in                         # ملفات التضمين
+└── README.md                           # هذا الملف
 ```
 
-**Edit a file directly in GitHub**
+### شرح البنية الثلاثية:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. **المستوى الأول** (`alazab-construction/`):
+   - المجلد الرئيسي للمشروع
+   - يحتوي على ملفات الإعداد والتثبيت
+   - استخدام hyphen (-) في الاسم
 
-**Use GitHub Codespaces**
+2. **المستوى الثاني** (`alazab_construction/`):
+   - مجلد التطبيق Python Package
+   - يحتوي على كود التطبيق الرئيسي
+   - استخدام underscore (_) في الاسم
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+3. **المستوى الثالث** (الموديولات والمكونات):
+   - `config/`: إعدادات إضافية
+   - `public/`: ملفات CSS وJS والأصول الثابتة
+   - `templates/`: قوالب Jinja2
+   - `www/`: صفحات الويب العامة
 
-## What technologies are used for this project?
+## المتطلبات
 
-This project is built with:
+- Frappe Framework >= 14.0.0
+- Python >= 3.10
+- Node.js >= 18
+- MariaDB/PostgreSQL
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## خطوات التثبيت على Frappe Bench
 
-## How can I deploy this project?
+### 1. إنشاء Bench جديد (إذا لم يكن موجودًا)
 
-Simply open [Lovable](https://lovable.dev/projects/99a02d6b-f056-49c3-91bf-97810d061851) and click on Share -> Publish.
+```bash
+bench init frappe-bench --frappe-branch version-14
+cd frappe-bench
+```
 
-## Can I connect a custom domain to my Lovable project?
+### 2. الحصول على التطبيق
 
-Yes, you can!
+```bash
+# من GitHub
+bench get-app https://github.com/YOUR_USERNAME/alazab-construction.git
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+# أو من مجلد محلي
+bench get-app /path/to/alazab-construction
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### 3. إنشاء موقع جديد
+
+```bash
+bench new-site alazab.local
+bench --site alazab.local use
+```
+
+### 4. تثبيت التطبيق على الموقع
+
+```bash
+bench --site alazab.local install-app alazab_construction
+```
+
+### 5. بناء الـ Assets
+
+```bash
+bench build --app alazab_construction
+```
+
+### 6. بدء التشغيل
+
+```bash
+bench start
+```
+
+### 7. الوصول للنظام
+
+افتح المتصفح على: `http://alazab.local:8000`
+
+**بيانات الدخول:**
+- Username: `Administrator`
+- Password: [كلمة المرور المُدخلة عند إنشاء الموقع]
+
+## الأوامر المفيدة
+
+### تحديث التطبيق
+
+```bash
+cd apps/alazab_construction
+git pull
+cd ../..
+bench --site alazab.local migrate
+bench build --app alazab_construction
+bench restart
+```
+
+### مسح الـ Cache
+
+```bash
+bench --site alazab.local clear-cache
+bench --site alazab.local clear-website-cache
+```
+
+### تفعيل وضع التطوير
+
+```bash
+bench --site alazab.local set-config developer_mode 1
+```
+
+### إلغاء تثبيت التطبيق
+
+```bash
+bench --site alazab.local uninstall-app alazab_construction
+```
+
+### إعادة بناء الـ Assets
+
+```bash
+bench build --app alazab_construction --force
+```
+
+## إعداد الإنتاج (Production)
+
+```bash
+# إعداد Nginx و Supervisor
+sudo bench setup production [your-frappe-user]
+
+# تفعيل SSL
+sudo bench setup lets-encrypt alazab.local
+```
+
+## المسارات والروابط
+
+- **Assets**: `/assets/alazab_construction/`
+- **CSS**: `/assets/alazab_construction/css/azab_theme.css`
+- **JS**: `/assets/alazab_construction/js/*.js`
+- **Templates**: يتم الوصول إليها عبر Jinja في Frappe
+- **Web Pages**: `/alazab_construction/www/`
+
+## هيكل الملفات والوظائف
+
+### ملفات الإعداد
+- `setup.py`: إعدادات تثبيت Python
+- `requirements.txt`: متطلبات Python
+- `MANIFEST.in`: تحديد الملفات المُضمنة في التوزيع
+
+### ملفات التطبيق
+- `__init__.py`: رقم الإصدار
+- `hooks.py`: إعدادات Frappe والخطافات
+- `modules.txt`: قائمة الموديولات المتاحة
+
+### المجلدات الرئيسية
+- `config/`: إعدادات إضافية للتطبيق
+- `public/`: ملفات CSS وJS والأصول الثابتة
+- `templates/`: قوالب Jinja2 للصفحات
+- `www/`: صفحات ويب عامة يمكن الوصول إليها مباشرة
+
+## ملاحظات مهمة
+
+1. **أسماء المجلدات**:
+   - المجلد الرئيسي: `alazab-construction` (بـ hyphen)
+   - مجلد التطبيق: `alazab_construction` (بـ underscore)
+
+2. **اسم التطبيق في الأوامر**:
+   - استخدم `alazab_construction` (بـ underscore)
+
+3. **البنية الثلاثية**:
+   - المستوى الأول: مجلد المشروع
+   - المستوى الثاني: مجلد التطبيق Python
+   - المستوى الثالث: الموديولات والمكونات
+
+4. **الملفات الثابتة**:
+   - يتم بناؤها في مجلد `assets/`
+   - متاحة على `/assets/alazab_construction/`
+
+## التطوير
+
+### إضافة صفحة ويب جديدة
+
+```bash
+bench --site alazab.local add-web-page "Page Name" --module "Module Name"
+```
+
+### إضافة DocType جديد
+
+```bash
+bench --site alazab.local add-doctype "DocType Name" --module "Module Name"
+```
+
+### تشغيل الاختبارات
+
+```bash
+bench --site alazab.local run-tests --app alazab_construction
+```
+
+## الترخيص
+
+MIT License
+
+## معلومات الاتصال
+
+**شركة العزب للمقاولات المتكاملة**
+- الموقع: https://al-azab.co
+- البريد الإلكتروني: info@al-azab.co
+
+## الدعم الفني
+
+للمساعدة والاستفسارات:
+- Email: info@al-azab.co
+- [Frappe Forum](https://discuss.frappe.io/)
+- [Frappe Documentation](https://frappeframework.com/docs)
+
+---
+
+تم التطوير باستخدام ❤️ من قبل فريق العزب للمقاولات
