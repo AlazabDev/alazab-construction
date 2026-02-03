@@ -31,6 +31,7 @@ import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
 import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
 import BrandIdentityPage from "./pages/services/BrandIdentityPage";
 import LuxuryCleaningPage from "./pages/services/LuxuryCleaningPage";
+import FurnitureGallery from "./pages/FurnitureGallery";
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
             <MaintenanceRequestDetails />
           </ProtectedRoute>
         } />
+        <Route path="/furniture-gallery" element={<FurnitureGallery />} />
         <Route path="/maintenance-reports" element={
           <ProtectedRoute>
             <MaintenanceReports />
