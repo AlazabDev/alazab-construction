@@ -15,29 +15,36 @@ const Logo: React.FC<LogoProps> = ({
   className = '',
   showText = true 
 }) => {
+  const getLogoSize = () => {
+    switch (variant) {
+      case 'icon':
+        return 'h-10 w-auto';
+      case 'compact':
+        return 'h-12 w-auto';
+      case 'full':
+      default:
+        return 'h-14 w-auto';
+    }
+  };
+
   const content = (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
       {/* Logo Image */}
       <div className="relative">
         <img 
           src={logoImage} 
           alt="العزب للمقاولات المتكاملة" 
-          className={`
-            ${variant === 'icon' ? 'h-14 w-auto' : ''}
-            ${variant === 'compact' ? 'h-18 w-auto' : ''}
-            ${variant === 'full' ? 'h-20 w-auto' : ''}
-            object-contain transition-transform duration-300 hover:scale-105
-          `}
+          className={`${getLogoSize()} object-contain transition-transform duration-300 hover:scale-105`}
         />
       </div>
 
       {/* Text - Only show if showText is true and not icon variant */}
       {showText && variant !== 'icon' && (
         <div className="flex flex-col leading-none">
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-construction-primary to-construction-accent bg-clip-text text-transparent leading-tight mb-1">
+          <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-construction-primary to-construction-accent bg-clip-text text-transparent leading-tight">
             العزب
           </h1>
-          <p className="text-xs md:text-sm font-medium text-construction-dark/70 leading-tight tracking-wide">
+          <p className="text-[10px] md:text-xs font-medium text-construction-dark/70 leading-tight">
             للمقاولات المتكاملة
           </p>
         </div>
@@ -49,7 +56,7 @@ const Logo: React.FC<LogoProps> = ({
     return (
       <Link 
         to={linkTo}
-        className="focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-lg p-2 transition-all duration-300 hover:bg-construction-light/10"
+        className="focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-lg p-1 transition-all duration-300"
         aria-label="العودة للصفحة الرئيسية - العزب للمقاولات المتكاملة"
       >
         {content}
