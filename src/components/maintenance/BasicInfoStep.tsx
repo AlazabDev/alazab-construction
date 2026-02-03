@@ -24,17 +24,16 @@ const BasicInfoStep: React.FC<BasicInfoStepProps> = ({ formData, updateFormData,
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        // جلب بيانات الفروع
+        // جلب بيانات الفروع من جدول branches
         const { data: branchesData, error: branchesError } = await supabase
           .from('branches')
-          .select('id, name')
-          .eq('is_active', true);
+          .select('id, name');
         
         if (branchesError) throw branchesError;
         
-        // جلب أنواع خدمات الصيانة من subcategories
+        // جلب أنواع خدمات الصيانة من جدول categories
         const { data: servicesData, error: servicesError } = await supabase
-          .from('subcategories')
+          .from('categories')
           .select('id, name')
           .eq('is_active', true);
         

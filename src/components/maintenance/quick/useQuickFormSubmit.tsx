@@ -34,11 +34,22 @@ export const useQuickFormSubmit = () => {
       setIsSubmitting(true);
       console.log('useQuickFormSubmit: بدء الحفظ في قاعدة البيانات');
 
+      // Get a default branch_id and company_id from the database
+      const { data: defaultBranch } = await supabase
+        .from('branches')
+        .select('id, company_id')
+        .limit(1)
+        .single();
+
+      if (!defaultBranch) {
+        throw new Error('لا يوجد فرع افتراضي');
+      }
+
       const estimatedCost = formData.estimatedCost
         ? parseFloat(formData.estimatedCost)
         : null;
       
-      // إنشاء كائن البيانات المتوافق مع schema
+      // إنشاء كائن البيانات المتوافق مع schema الحالي
       const requestData = {
         title: formData.title,
         client_name: 'عميل سريع',
@@ -46,9 +57,10 @@ export const useQuickFormSubmit = () => {
         description: formData.description,
         location: formData.branch,
         priority: formData.priority,
-        preferred_date: formData.requestedDate,
         estimated_cost: estimatedCost,
-        status: 'pending'
+        status: 'Open' as const,
+        branch_id: defaultBranch.id,
+        company_id: defaultBranch.company_id
       };
 
       console.log('useQuickFormSubmit: بيانات الطلب المرسل', requestData);
@@ -67,35 +79,9 @@ export const useQuickFormSubmit = () => {
       
       const requestId = insertedRequest && insertedRequest[0] ? insertedRequest[0].id : '';
       
-      // رفع المرفقات إذا وجدت
-      if (formData.attachments.length > 0 && requestId) {
-        console.log('useQuickFormSubmit: بدء رفع المرفقات', formData.attachments.length);
-        
-        const uploadPromises = formData.attachments.map(async (file) => {
-          const fileName = `${requestId}-${Date.now()}-${file.name}`;
-          
-          const attachmentData = {
-            request_id: requestId,
-            file_name: file.name,
-            file_path: fileName,
-            mime_type: file.type,
-            size_bytes: file.size
-          };
-          
-          const { error: attachError } = await supabase
-            .from('request_attachments')
-            .insert(attachmentData);
-          
-          if (attachError) {
-            console.error('useQuickFormSubmit: خطأ في حفظ المرفق:', attachError);
-            return null;
-          }
-          
-          return attachmentData;
-        });
-        
-        await Promise.all(uploadPromises);
-        console.log('useQuickFormSubmit: تم حفظ المرفقات بنجاح');
+      // Note: Attachments functionality is not available as the table doesn't exist
+      if (formData.attachments.length > 0) {
+        console.log('useQuickFormSubmit: المرفقات غير مدعومة حالياً');
       }
       
       // إرسال البريد الإلكتروني

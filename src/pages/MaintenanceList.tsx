@@ -24,13 +24,24 @@ const MaintenanceList: React.FC = () => {
     try {
       const { data, error } = await supabase
         .from('maintenance_requests')
-        .select('id, title, service_type, status, priority, preferred_date, created_at')
+        .select('id, title, service_type, status, priority, created_at')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       
-      setRequests(data || []);
-      setFilteredRequests(data || []);
+      // Transform data to match MaintenanceRequestSummary interface
+      const transformedData: MaintenanceRequestSummary[] = (data || []).map(item => ({
+        id: item.id,
+        title: item.title,
+        service_type: item.service_type || 'غير محدد',
+        status: item.status || 'Open',
+        priority: item.priority || 'medium',
+        preferred_date: item.created_at, // Use created_at as fallback
+        created_at: item.created_at
+      }));
+      
+      setRequests(transformedData);
+      setFilteredRequests(transformedData);
     } catch (error) {
       console.error('خطأ في جلب طلبات الصيانة:', error);
       toast({
@@ -58,7 +69,7 @@ const MaintenanceList: React.FC = () => {
     if (searchTerm) {
       filtered = filtered.filter(request => 
         request.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-        request.service_type.toLowerCase().includes(searchTerm.toLowerCase())
+        (request.service_type && request.service_type.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     }
 
@@ -131,8 +142,8 @@ const MaintenanceList: React.FC = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="all">جميع الحالات</SelectItem>
-                      <SelectItem value="pending">قيد الانتظار</SelectItem>
-                      <SelectItem value="in-progress">قيد التنفيذ</SelectItem>
+                      <SelectItem value="open">قيد الانتظار</SelectItem>
+                      <SelectItem value="inprogress">قيد التنفيذ</SelectItem>
                       <SelectItem value="completed">مكتمل</SelectItem>
                       <SelectItem value="cancelled">ملغي</SelectItem>
                     </SelectContent>

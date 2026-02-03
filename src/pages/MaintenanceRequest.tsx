@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
-import { MaintenanceStep, MaintenanceRequest, MaintenanceRequestDB, AttachmentDB } from '@/types/maintenance';
+import { MaintenanceStep, MaintenanceRequest } from '@/types/maintenance';
 import { sendEmail } from '@/lib/emailjs';
 import { supabase } from '@/integrations/supabase/client';
 import { useNavigate } from 'react-router-dom';
@@ -71,22 +71,34 @@ const MaintenancePage: React.FC = () => {
       const reqNumber = `MR-${uniqueId}`;
       setRequestNumber(reqNumber);
 
+      // Get a default branch_id and company_id from the database
+      const { data: defaultBranch } = await supabase
+        .from('branches')
+        .select('id, company_id')
+        .limit(1)
+        .single();
+
+      if (!defaultBranch) {
+        throw new Error('لا يوجد فرع افتراضي');
+      }
+
       // تحويل estimatedCost من نص إلى رقم إذا كان موجوداً
       const estimatedCost = formData.estimatedCost
         ? parseFloat(formData.estimatedCost)
         : null;
       
-      // حفظ المعلومات في قاعدة البيانات
-      const requestData: MaintenanceRequestDB = {
+      // حفظ المعلومات في قاعدة البيانات - متوافق مع schema
+      const requestData = {
         title: formData.title,
         client_name: 'عميل مجهول',
         service_type: formData.serviceType,
         description: formData.description,
         location: formData.branch,
-        priority: formData.priority,
-        preferred_date: formData.requestedDate,
+        priority: formData.priority || 'medium',
         estimated_cost: estimatedCost,
-        status: 'pending'
+        status: 'Open' as const,
+        branch_id: defaultBranch.id,
+        company_id: defaultBranch.company_id
       };
         
       const { data: insertedRequest, error: dbError } = await supabase
@@ -103,43 +115,16 @@ const MaintenancePage: React.FC = () => {
       const requestId = insertedRequest && insertedRequest[0] ? insertedRequest[0].id : reqNumber;
       
       // رفع المرفقات إلى Supabase Storage (إذا وجدت)
-      const uploadPromises = formData.attachments.map(async (file) => {
-        const fileName = `${requestId}-${file.name}`;
-        const { data, error } = await supabase.storage
-          .from('maintenance-attachments')
-          .upload(fileName, file);
-        
-        if (error) {
-          console.error('خطأ في رفع المرفق:', error);
-          return null;
-        }
-        
-        // إنشاء URL للملف المرفوع
-        const fileUrl = supabase.storage
-          .from('maintenance-attachments')
-          .getPublicUrl(data?.path || '').data.publicUrl;
-        
-        return { path: data?.path, url: fileUrl };
-      });
-      
-      const uploadedFiles = await Promise.all(uploadPromises);
-      const fileUrls = uploadedFiles.filter(Boolean).map(file => file?.url);
-      
-      // إضافة المرفقات إلى جدول المرفقات إذا وجدت
-      if (uploadedFiles.length > 0) {
-        const attachmentsData = uploadedFiles.map((file) => ({
-          request_id: requestId,
-          file_name: file?.path?.split('/').pop() || 'file',
-          file_path: file?.path || '',
-          mime_type: 'application/octet-stream'
-        }));
-        
-        const { error: attachError } = await supabase
-          .from('request_attachments')
-          .insert(attachmentsData);
+      if (formData.attachments.length > 0) {
+        for (const file of formData.attachments) {
+          const fileName = `${requestId}-${file.name}`;
+          const { error } = await supabase.storage
+            .from('maintenance-attachments')
+            .upload(fileName, file);
           
-        if (attachError) {
-          console.error('خطأ في حفظ بيانات المرفقات:', attachError);
+          if (error) {
+            console.error('خطأ في رفع المرفق:', error);
+          }
         }
       }
       
@@ -151,7 +136,7 @@ const MaintenancePage: React.FC = () => {
         title: formData.title,
         description: formData.description,
         priority: formData.priority,
-        requested_date: new Date(formData.requestedDate).toLocaleDateString('ar-SA'),
+        requested_date: formData.requestedDate ? new Date(formData.requestedDate).toLocaleDateString('ar-SA') : 'غير محدد',
         estimated_cost: formData.estimatedCost || 'غير محدد',
         attachments_count: formData.attachments.length
       };

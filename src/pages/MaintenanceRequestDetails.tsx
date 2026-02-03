@@ -49,11 +49,11 @@ const MaintenanceRequestDetails: React.FC = () => {
         setRequestDetails({
           id: data.id,
           title: data.title,
-          service_type: data.service_type,
+          service_type: data.service_type || 'غير محدد',
           description: data.description || '',
           priority: data.priority || 'medium',
-          status: data.status || 'pending',
-          scheduled_date: data.preferred_date || '',
+          status: data.status || 'Open',
+          scheduled_date: data.sla_due_date || data.created_at || '',
           created_at: data.created_at || '',
           requester_name: data.client_name || '',
           requester_phone: data.client_phone || '',
@@ -74,10 +74,13 @@ const MaintenanceRequestDetails: React.FC = () => {
 
   const getStatusBadge = (status: string) => {
     const statusMap: { [key: string]: { label: string; variant: "default" | "secondary" | "destructive" | "outline" } } = {
-      'pending': { label: 'في انتظار الموافقة', variant: 'secondary' },
-      'in_progress': { label: 'قيد التنفيذ', variant: 'default' },
-      'completed': { label: 'مكتمل', variant: 'outline' },
-      'cancelled': { label: 'ملغي', variant: 'destructive' }
+      'Open': { label: 'في انتظار الموافقة', variant: 'secondary' },
+      'InProgress': { label: 'قيد التنفيذ', variant: 'default' },
+      'Completed': { label: 'مكتمل', variant: 'outline' },
+      'Cancelled': { label: 'ملغي', variant: 'destructive' },
+      'Assigned': { label: 'معين', variant: 'default' },
+      'Waiting': { label: 'في الانتظار', variant: 'secondary' },
+      'Rejected': { label: 'مرفوض', variant: 'destructive' }
     };
     
     const statusInfo = statusMap[status] || { label: status, variant: 'secondary' as const };
