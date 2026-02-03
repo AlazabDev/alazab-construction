@@ -20,67 +20,51 @@ export const fetchMaintenanceRequest = async (requestNumber: string) => {
     title: requestData.title,
     description: requestData.description || '',
     branch: requestData.location || 'غير محدد',
-    service_type: requestData.service_type,
+    service_type: requestData.service_type || 'غير محدد',
     priority: requestData.priority || 'medium',
-    status: requestData.status || 'pending',
-    scheduled_date: requestData.preferred_date,
+    status: requestData.status || 'Open',
+    scheduled_date: requestData.sla_due_date || requestData.created_at,
     estimated_cost: requestData.estimated_cost ? String(requestData.estimated_cost) : null,
     actual_cost: requestData.actual_cost ? String(requestData.actual_cost) : null,
     created_at: requestData.created_at,
-    completion_date: requestData.actual_completion
+    completion_date: null
   };
   
   return details;
 };
 
-export const fetchAttachments = async (requestNumber: string) => {
-  const { data: attachmentsData, error: attachmentsError } = await supabase
-    .from('request_attachments')
-    .select('*')
-    .eq('request_id', requestNumber);
-  
-  if (attachmentsError) {
-    return [];
-  }
-  
-  return (attachmentsData || []).map(att => ({
-    id: att.id,
-    file_url: att.file_path,
-    description: att.file_name || 'مرفق'
-  })) as AttachmentDetails[];
+export const fetchAttachments = async (requestNumber: string): Promise<AttachmentDetails[]> => {
+  // Since request_attachments table doesn't exist in the schema,
+  // return empty array for now
+  console.log('Attachments table not available, returning empty array for request:', requestNumber);
+  return [];
 };
 
 export const updateRequestStatus = async (requestId: string, newStatus: string) => {
-  const updateData: any = { status: newStatus };
+  // Map display status to database enum
+  const statusMap: Record<string, string> = {
+    'pending': 'Open',
+    'in-progress': 'InProgress',
+    'completed': 'Completed',
+    'cancelled': 'Cancelled'
+  };
   
-  // إذا تم تعيين الحالة كمكتمل، قم بتعيين تاريخ الاكتمال
-  if (newStatus === 'completed') {
-    updateData.actual_completion = new Date().toISOString();
-  }
+  const dbStatus = statusMap[newStatus] || newStatus;
   
   const { error } = await supabase
     .from('maintenance_requests')
-    .update(updateData)
+    .update({ status: dbStatus as any })
     .eq('id', requestId);
   
   if (error) throw error;
-  
-  // إضافة سجل تغيير الحالة - تأكد من تطابق الأنواع
-  const statusValue = newStatus as 'draft' | 'awaiting_vendor' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
-  
-  await supabase
-    .from('request_status_history')
-    .insert({
-      request_id: requestId,
-      to_status: statusValue,
-      note: `تم تغيير الحالة إلى ${getStatusText(newStatus)}`,
-    });
 };
 
 export const getStatusText = (status: string) => {
   switch (status?.toLowerCase()) {
+    case 'open':
     case 'pending':
       return 'قيد الانتظار';
+    case 'inprogress':
     case 'in progress':
     case 'in-progress':
       return 'قيد التنفيذ';
@@ -88,6 +72,12 @@ export const getStatusText = (status: string) => {
       return 'مكتمل';
     case 'cancelled':
       return 'ملغي';
+    case 'rejected':
+      return 'مرفوض';
+    case 'assigned':
+      return 'معين';
+    case 'waiting':
+      return 'في الانتظار';
     default:
       return status || 'غير معروف';
   }

@@ -26,13 +26,13 @@ export const useQuickFormData = () => {
       try {
         const { data: branchesData, error: branchesError } = await supabase
           .from('branches')
-          .select('id, name')
-          .eq('is_active', true);
+          .select('id, name');
         
         if (branchesError) throw branchesError;
         
+        // Use categories table instead of subcategories
         const { data: servicesData, error: servicesError } = await supabase
-          .from('subcategories')
+          .from('categories')
           .select('id, name')
           .eq('is_active', true);
         

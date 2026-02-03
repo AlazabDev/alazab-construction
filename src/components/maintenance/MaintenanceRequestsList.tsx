@@ -13,6 +13,9 @@ import {
 } from "@/components/ui/select";
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from "@/components/ui/use-toast";
+import { Database } from '@/integrations/supabase/types';
+
+type MrStatus = Database['public']['Enums']['mr_status'];
 
 interface MaintenanceRequestsListProps {
   requests: MaintenanceRequestSummary[];
@@ -23,15 +26,22 @@ interface MaintenanceRequestsListProps {
 
 const getStatusColor = (status: string) => {
   switch (status.toLowerCase()) {
+    case 'open':
     case 'pending':
       return 'bg-yellow-100 text-yellow-800';
+    case 'inprogress':
     case 'in progress':
     case 'in-progress':
       return 'bg-blue-100 text-blue-800';
     case 'completed':
       return 'bg-green-100 text-green-800';
     case 'cancelled':
+    case 'rejected':
       return 'bg-red-100 text-red-800';
+    case 'assigned':
+      return 'bg-purple-100 text-purple-800';
+    case 'waiting':
+      return 'bg-orange-100 text-orange-800';
     default:
       return 'bg-gray-100 text-gray-800';
   }
@@ -39,8 +49,10 @@ const getStatusColor = (status: string) => {
 
 const getStatusText = (status: string) => {
   switch (status?.toLowerCase()) {
+    case 'open':
     case 'pending':
       return 'قيد الانتظار';
+    case 'inprogress':
     case 'in progress':
     case 'in-progress':
       return 'قيد التنفيذ';
@@ -48,6 +60,12 @@ const getStatusText = (status: string) => {
       return 'مكتمل';
     case 'cancelled':
       return 'ملغي';
+    case 'rejected':
+      return 'مرفوض';
+    case 'assigned':
+      return 'معين';
+    case 'waiting':
+      return 'في الانتظار';
     default:
       return status || 'غير معروف';
   }
@@ -75,31 +93,22 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
     setUpdatingStatus(prev => ({ ...prev, [requestId]: true }));
     
     try {
+      // Map display status to database enum
+      const statusMap: Record<string, MrStatus> = {
+        'pending': 'Open',
+        'in-progress': 'InProgress',
+        'completed': 'Completed',
+        'cancelled': 'Cancelled'
+      };
+      
+      const dbStatus = statusMap[newStatus] || 'Open';
+      
       const { error } = await supabase
         .from('maintenance_requests')
-        .update({ status: newStatus })
+        .update({ status: dbStatus })
         .eq('id', requestId);
       
       if (error) throw error;
-      
-      // إذا تم تعيين الحالة كمكتمل، قم بتعيين تاريخ الاكتمال
-      if (newStatus === 'completed') {
-        await supabase
-          .from('maintenance_requests')
-          .update({ actual_completion: new Date().toISOString() })
-          .eq('id', requestId);
-      }
-      
-      // إضافة سجل تغيير الحالة - تأكد من تطابق الأنواع
-      const statusValue = newStatus as 'draft' | 'awaiting_vendor' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
-      
-      await supabase
-        .from('request_status_history')
-        .insert({
-          request_id: requestId,
-          to_status: statusValue,
-          note: `تم تغيير الحالة إلى ${getStatusText(newStatus)}`,
-        });
       
       toast({
         title: "تم تحديث الحالة",
@@ -160,7 +169,6 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
             <TableHead className="text-right">الحالة</TableHead>
             <TableHead className="text-right">الأولوية</TableHead>
             <TableHead className="text-right">تاريخ الإنشاء</TableHead>
-            <TableHead className="text-right">تاريخ الجدولة</TableHead>
             <TableHead className="text-right">الإجراءات</TableHead>
           </TableRow>
         </TableHeader>
@@ -168,7 +176,7 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
           {requests.map((request) => (
             <TableRow key={request.id}>
               <TableCell className="font-medium">{request.title}</TableCell>
-              <TableCell>{request.service_type}</TableCell>
+              <TableCell>{request.service_type || 'غير محدد'}</TableCell>
               <TableCell>
                 {updatingStatus[request.id] ? (
                   <div className="animate-pulse flex space-x-4">
@@ -180,9 +188,8 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
                   </span>
                 )}
               </TableCell>
-              <TableCell>{request.priority}</TableCell>
+              <TableCell>{request.priority || 'غير محدد'}</TableCell>
               <TableCell>{formatDate(request.created_at)}</TableCell>
-              <TableCell>{formatDate(request.preferred_date)}</TableCell>
               <TableCell className="space-y-2">
                 <div className="flex flex-wrap gap-2 items-center">
                   <Button
@@ -195,7 +202,7 @@ const MaintenanceRequestsList: React.FC<MaintenanceRequestsListProps> = ({
                   </Button>
                   
                   <Select
-                    value={request.status}
+                    value={request.status?.toLowerCase()}
                     onValueChange={(value) => handleStatusChange(request.id, value)}
                     disabled={updatingStatus[request.id]}
                   >
