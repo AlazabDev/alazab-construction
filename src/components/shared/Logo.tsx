@@ -1,63 +1,24 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import logoImage from '@/assets/logo-alazab-animated.gif';
+import { Link } from "react-router-dom";
 
 interface LogoProps {
-  variant?: 'full' | 'icon' | 'compact';
+  variant?: "full" | "icon" | "compact";
   linkTo?: string;
   className?: string;
   showText?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ 
-  variant = 'full', 
-  linkTo = '/', 
-  className = '',
-  showText = true 
-}) => {
-  const content = (
-    <div className={`flex items-center gap-3 ${className}`}>
-      {/* Logo Image */}
-      <div className="relative">
-        <img 
-          src={logoImage} 
-          alt="العزب للمقاولات المتكاملة" 
-          className={`
-            ${variant === 'icon' ? 'h-14 w-auto' : ''}
-            ${variant === 'compact' ? 'h-18 w-auto' : ''}
-            ${variant === 'full' ? 'h-20 w-auto' : ''}
-            object-contain transition-transform duration-300 hover:scale-105
-          `}
-        />
-      </div>
+const Logo = ({ variant = "full", linkTo = "/", className = "", showText = false }: LogoProps) => {
+  const sizeClass = variant === "icon" ? "h-10" : variant === "compact" ? "h-8" : "h-12";
 
-      {/* Text - Only show if showText is true and not icon variant */}
-      {showText && variant !== 'icon' && (
-        <div className="flex flex-col leading-none">
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-construction-primary to-construction-accent bg-clip-text text-transparent leading-tight mb-1">
-            العزب
-          </h1>
-          <p className="text-xs md:text-sm font-medium text-construction-dark/70 leading-tight tracking-wide">
-            للمقاولات المتكاملة
-          </p>
-        </div>
-      )}
+  const content = (
+    <div className="flex items-center gap-2">
+      <img src="https://al-azab.co/w.png" alt="Al-Azab" className={`${sizeClass} w-auto object-contain ${className}`} loading="lazy" />
+      {showText && <span className="text-sm font-semibold text-white">AL-AZAB</span>}
     </div>
   );
 
-  if (linkTo) {
-    return (
-      <Link 
-        to={linkTo}
-        className="focus:outline-none focus:ring-2 focus:ring-construction-accent rounded-lg p-2 transition-all duration-300 hover:bg-construction-light/10"
-        aria-label="العودة للصفحة الرئيسية - العزب للمقاولات المتكاملة"
-      >
-        {content}
-      </Link>
-    );
-  }
-
-  return content;
+  if (!linkTo) return content;
+  return <Link to={linkTo} aria-label="العودة للرئيسية">{content}</Link>;
 };
 
 export default Logo;

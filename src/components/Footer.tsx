@@ -1,138 +1,26 @@
+import { Link } from "react-router-dom";
+import Logo from "@/components/shared/Logo";
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Logo from './shared/Logo';
-
-const Footer: React.FC = () => {
+const Footer = () => {
   return (
-    <footer className="bg-construction-primary text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div>
-            <div className="mb-4 [&_img]:brightness-0 [&_img]:invert">
-              <Logo variant="compact" linkTo="/" showText={true} className="[&_h1]:text-white [&_p]:text-construction-light" />
-            </div>
-            <p className="text-construction-light mb-4 leading-relaxed">
-              شركة رائدة في مجال المقاولات والإنشاءات، نقدم خدمات متكاملة بأعلى معايير الجودة والاحترافية.
-            </p>
-            <div className="text-sm text-construction-light">
-              <p>تأسست منذ أكثر من 20 عاماً</p>
-              <p>500+ مشروع منجز</p>
-              <p>100+ عميل راضي</p>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">روابط سريعة</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
-                  الرئيسية
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
-                  من نحن
-                </Link>
-              </li>
-              <li>
-                <Link to="/services" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
-                  خدماتنا
-                </Link>
-              </li>
-              <li>
-                <Link to="/projects" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
-                  مشاريعنا
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
-                  اتصل بنا
-                </Link>
-              </li>
-              <li>
-                <Link to="/ceo" className="text-construction-light hover:text-construction-accent transition-colors duration-300">
-                  محمد عزب - المدير التنفيذي
-                </Link>
-              </li>
-              <li>
-                <a 
-                  href="https://erp.alazab.com/apps" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-construction-light hover:text-construction-accent transition-colors duration-300 flex items-center gap-2"
-                >
-                  نظام ERP الإداري
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">خدماتنا</h3>
-            <ul className="space-y-2 text-construction-light">
-              <li>• المقاولات العامة</li>
-              <li>• التصميم المعماري</li>
-              <li>• إدارة المشاريع</li>
-              <li>• الصيانة والتشغيل</li>
-              <li>• الاستشارات الهندسية</li>
-              <li>• التطوير العقاري</li>
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">معلومات الاتصال</h3>
-            <div className="space-y-3 text-construction-light">
-              <div>
-                <p className="font-medium text-white">المقر الرئيسي - القاهرة</p>
-                <p className="text-sm">مصر، القاهرة، المعادي، ش 500 متفرع من ش الجزائر</p>
-                <p className="text-sm">هاتف: 201004006620+</p>
-              </div>
-              
-              <div>
-                <p className="font-medium text-white">فرع جدة - السعودية</p>
-                <p className="text-sm">المملكة العربية السعودية، جدة، حي الصفا</p>
-                <p className="text-sm">هاتف: 966547330897+</p>
-              </div>
-
-              <div>
-                <p className="font-medium text-white">فرع الدقهلية - مصر</p>
-                <p className="text-sm">مصر، الدقهلية، مدينة نبروه، ش المحطة</p>
-                <p className="text-sm">هاتف: 201014536600+</p>
-              </div>
-              
-              <div className="pt-2">
-                <p className="text-sm">
-                  البريد الإلكتروني: <a href="mailto:support@al-azab.co" className="hover:text-construction-accent transition-colors duration-300">support@al-azab.co</a>
-                </p>
-                <p className="text-sm">
-                  الموقع الإلكتروني: <a href="https://al-azab.co" target="_blank" rel="noopener noreferrer" className="hover:text-construction-accent transition-colors duration-300">al-azab.co</a>
-                </p>
-              </div>
-            </div>
-          </div>
+    <footer className="border-t border-construction-muted bg-black py-10">
+      <div className="container grid gap-8 md:grid-cols-3">
+        <div className="space-y-3">
+          <Logo />
+          <p className="text-sm text-construction-light">الموقع الرئيسي لشركة العزب: تسويق خطوط الإنتاج + بوابة توجيه للأنظمة الداخلية.</p>
         </div>
-
-        <hr className="border-construction-light/30 my-8" />
-
-        {/* Copyright */}
-        <div className="text-center text-construction-light text-sm">
-          <p className="mb-2">
-            جميع الحقوق محفوظة © 2024 شركة العزب للمقاولات
-          </p>
-          <p className="text-xs leading-relaxed">
-            شركة العزب للإنشاءات شركة تابعة للعلامة التجارية المسجلة D-U-N-S No: 849203826،
-            تعمل تحت الاسم التجاري القانوني "عزب لأعمال الإدارة التنفيذية للمشاريع الصناعية والخدمية والتوريدات العامة"
-          </p>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold text-white">روابط سريعة</h3>
+          <ul className="space-y-2 text-sm text-construction-light">
+            <li><Link to="/services">خطوط الإنتاج</Link></li>
+            <li><Link to="/systems">الأنظمة الداخلية</Link></li>
+            <li><Link to="/projects">المشاريع</Link></li>
+          </ul>
+        </div>
+        <div className="text-sm text-construction-light">
+          <p>البريد: <a href="mailto:support@al-azab.co" className="text-white" dir="ltr">support@al-azab.co</a></p>
+          <p>الهاتف: <a href="tel:+201004006620" className="text-white" dir="ltr">+20 100 400 6620</a></p>
+          <p>الموقع: <a href="https://al-azab.co" className="text-white" dir="ltr">https://al-azab.co</a></p>
         </div>
       </div>
     </footer>
