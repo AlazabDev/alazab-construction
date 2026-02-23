@@ -3,7 +3,7 @@
 
 نظام إدارة شامل لشركة العزب للمقاولات المتكاملة — **الموقع الرئيسي: https://alazab.com**
 
-## نظرة عامة
+## Lines of Production
 
 منصة موحّدة تُدار من خلال **الدومين الرئيسي** وتعمل كبوابة دخول واحدة، مع توجيه المستخدم إلى الخدمات المختلفة عبر الروابط والمسارات (Routing/Reverse Proxy).
 
@@ -81,7 +81,10 @@ alazab-portal/                          # المجلد الرئيسي للبوا
 * الموقع التعريفي: [https://al-azab.co](https://al-azab.co)
 * البريد الإلكتروني: [info@al-azab.co](mailto:info@al-azab.co)
 
----
+- Background: `#111111`
+- Accent: `#f5bf23`
+- Font: `Cairo`
+- Logo on dark background: `https://al-azab.co/w.png`
 
 تم التطوير بواسطة فريق العزب للمقاولات المتكاملة.
 

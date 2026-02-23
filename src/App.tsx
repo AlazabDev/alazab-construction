@@ -1,5 +1,4 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Index from "./pages/Index";
 import MaintenanceRequest from "./pages/MaintenanceRequest";
 import MaintenanceTracking from "./pages/MaintenanceTracking";
@@ -21,12 +20,13 @@ import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { Toaster } from "./components/ui/toaster";
-import "./App.css";
-
 import ProjectsShowcase from "./pages/ProjectsShowcase";
 import MaintenanceRequestDetails from "./pages/MaintenanceRequestDetails";
 import MaintenanceReports from "./pages/MaintenanceReports";
 import ProjectStoryPage from "./pages/ProjectStoryPage";
+import ProductionLinePage from "./pages/ProductionLinePage";
+import SystemsHubPage from "./pages/SystemsHubPage";
+import SystemRedirect from "./components/SystemRedirect";
 import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
 import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
 import BrandIdentityPage from "./pages/services/BrandIdentityPage";
@@ -43,42 +43,33 @@ function App() {
         <Route path="/maintenance-tracking" element={<MaintenanceTracking />} />
         <Route path="/maintenance-list" element={<MaintenanceList />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/services/general-supplies" element={<GeneralSuppliesPage />} />
+        <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
+        <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
+        <Route path="/services/luxury-cleaning" element={<LuxuryCleaningPage />} />
+        <Route path="/production/:slug" element={<ProductionLinePage />} />
+        <Route path="/production/luxury-finishing" element={<ProductionLinePage />} />
+        <Route path="/production/brand-identity" element={<ProductionLinePage />} />
+        <Route path="/production/uberfix" element={<ProductionLinePage />} />
+        <Route path="/production/laban-aleasfur" element={<ProductionLinePage />} />
+        <Route path="/systems" element={<SystemsHubPage />} />
+        <Route path="/hub" element={<SystemsHubPage />} />
+        <Route path="/erp" element={<SystemRedirect to={LINKS.ERP} />} />
+        <Route path="/crm" element={<SystemRedirect to={LINKS.CRM} />} />
+        <Route path="/mail" element={<SystemRedirect to={LINKS.MAIL} />} />
+        <Route path="/n8n" element={<SystemRedirect to={LINKS.N8N} />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/chatbot" element={<ChatbotPage />} />
-        <Route path="/project-management" element={
-          <ProtectedRoute>
-            <ProjectManagement />
-          </ProtectedRoute>
-        } />
-        <Route path="/projects/:projectId" element={
-          <ProtectedRoute>
-            <ProjectDetails />
-          </ProtectedRoute>
-        } />
+        <Route path="/project-management" element={<ProtectedRoute><ProjectManagement /></ProtectedRoute>} />
+        <Route path="/projects/:projectId" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
         <Route path="/portfolio/:projectId" element={<ProjectPortfolioDetails />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/ceo" element={<CEOPage />} />
-        <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        } />
-        <Route path="/admin-dashboard" element={
-          <ProtectedRoute>
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/profile" element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        } />
-        <Route path="/settings" element={
-          <ProtectedRoute>
-            <SettingsPage />
-          </ProtectedRoute>
-        } />
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/admin-dashboard" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
         <Route path="/projects-gallery" element={<ProjectsShowcase />} />
         <Route path="/projects-gallery/:projectId" element={<ProjectStoryPage />} />
         <Route path="/services/general-supplies" element={<GeneralSuppliesPage />} />

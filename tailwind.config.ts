@@ -53,13 +53,13 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // نظام الألوان الجديد - الأزرق الغامق جداً والأصفر
         construction: {
-          primary: "#0f1629", // أزرق غامق جداً
-          secondary: "#1e293b", // أزرق متوسط
-          accent: "#fbbf24", // أصفر ذهبي
-          dark: "#020617", // أزرق أسود عميق
-          light: "#e2e8f0", // رمادي فاتح
+          primary: "#111111",
+          secondary: "#1a1a1a",
+          accent: "#f5bf23",
+          dark: "#111111",
+          light: "#d4d4d4",
+          muted: "#2a2a2a",
         },
       },
       borderRadius: {

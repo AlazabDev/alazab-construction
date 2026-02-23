@@ -1,9 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import logoImage from '@/assets/logo-alazab-animated.gif';
+import { Link } from "react-router-dom";
 
 interface LogoProps {
-  variant?: 'full' | 'icon' | 'compact';
+  variant?: "full" | "icon" | "compact";
   linkTo?: string;
   className?: string;
   showText?: boolean;
