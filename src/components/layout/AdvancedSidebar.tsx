@@ -69,6 +69,7 @@ const mainSections: SidebarSection[] = [
       { title: "الرئيسية", href: "/", icon: Home, description: "العودة للصفحة الرئيسية" },
       { title: "خدماتنا", href: "/services", icon: Wrench, description: "تصفح جميع خدماتنا" },
       { title: "مشاريعنا", href: "/projects-gallery", icon: Building, description: "معرض المشاريع المنجزة" },
+      { title: "معرض الأثاث", href: "/furniture-gallery", icon: Camera, description: "أثاث وتصميم داخلي فاخر", badge: "جديد" },
       { title: "من نحن", href: "/about", icon: Users, description: "تعرف على شركتنا" },
       { title: "اتصل بنا", href: "/contact", icon: Phone, description: "طرق التواصل معنا" },
     ]
@@ -86,6 +87,7 @@ const mainSections: SidebarSection[] = [
     expandable: true,
     items: [
       { title: "لوحة التحكم", href: "/dashboard", icon: TrendingUp, description: "إحصائيات ونظرة عامة" },
+      { title: "لوحة الإدارة", href: "/admin-dashboard", icon: Settings, description: "لوحة تحكم المسؤول" },
       { title: "إدارة المشاريع", href: "/project-management", icon: Briefcase, description: "إدارة المشاريع الجارية" },
       { title: "قائمة الصيانة", href: "/maintenance-list", icon: FileText, description: "جميع طلبات الصيانة" },
       { title: "الملف الشخصي", href: "/profile", icon: User, description: "إعدادات الحساب الشخصي" },
@@ -94,27 +96,59 @@ const mainSections: SidebarSection[] = [
   }
 ];
 
-const applicationsSections: SidebarSection[] = [
+const erpAppsSections: SidebarSection[] = [
   {
-    title: "تطبيقات الشركة",
+    title: "تطبيقات ERP الأساسية",
     expandable: true,
     items: [
-      { title: "نظام ERP المتكامل", href: "https://erp.alazab.com/apps", icon: Building, description: "نظام إدارة موارد المؤسسة الشامل", external: true, badge: "رئيسي" },
-      { title: "الأصول", href: "https://alazab.com/assets", icon: Database, description: "إدارة أصول الشركة", external: true },
-      { title: "منشئ المواقع", href: "https://alazab.com/builder", icon: Hammer, description: "أداة بناء المواقع", external: true },
-      { title: "إدارة العملاء", href: "https://alazab.com/crm", icon: UserCircle, description: "نظام إدارة علاقات العملاء", external: true },
-      { title: "التخزين السحابي", href: "https://alazab.com/drive", icon: HardDrive, description: "منصة التخزين والملفات", external: true },
-      { title: "خدمة البريد", href: "https://alazab.com/email_delivery_service", icon: Send, description: "خدمة توصيل البريد الإلكتروني", external: true },
-      { title: "ERPNext", href: "https://erpnext.alazab.com", icon: Building, description: "نظام تخطيط موارد المؤسسات", external: true, badge: "مميز" },
-      { title: "تقدير الأسعار", href: "https://alazab.com/erpnext_price_estimation", icon: DollarSign, description: "نظام تقدير أسعار ERPNext", external: true },
-      { title: "مكتب المساعدة", href: "https://alazab.com/helpdesk", icon: HeadphonesIcon, description: "نظام دعم العملاء", external: true },
-      { title: "الموارد البشرية", href: "https://alazab.com/hrms", icon: Users, description: "نظام إدارة الموارد البشرية", external: true },
-      { title: "التحليلات", href: "https://alazab.com/insights", icon: BarChart3, description: "تحليلات وإحصائيات متقدمة", external: true },
-      { title: "النشرة الإخبارية", href: "https://alazab.com/newsletter", icon: Newspaper, description: "إدارة النشرات الإخبارية", external: true },
-      { title: "مصمم الطباعة", href: "https://alazab.com/print_designer", icon: Printer, description: "أداة تصميم المطبوعات", external: true },
-      { title: "الاستوديو", href: "https://alazab.com/studio", icon: Palette, description: "استوديو التصميم والإبداع", external: true },
-      { title: "المترجم", href: "https://alazab.com/translator", icon: Languages, description: "خدمة الترجمة الآلية", external: true },
-      { title: "واتساب للأعمال", href: "https://alazab.com/waba_integration", icon: MessageCircle, description: "تكامل واتساب للأعمال", external: true },
+      { title: "Frappe - النظام الأساسي", href: "https://erp.alazab.com/app", icon: Building, description: "منصة فرابي الأساسية", external: true, badge: "رئيسي" },
+      { title: "ERPNext - تخطيط الموارد", href: "https://erp.alazab.com/app/erpnext", icon: Database, description: "نظام إدارة موارد المؤسسة", external: true },
+      { title: "CRM - إدارة العملاء", href: "https://erp.alazab.com/app/crm", icon: UserCircle, description: "علاقات العملاء والمبيعات", external: true },
+      { title: "HRMS - الموارد البشرية", href: "https://erp.alazab.com/app/hrms", icon: Users, description: "إدارة الموظفين والرواتب", external: true },
+    ]
+  },
+  {
+    title: "التواصل والدعم",
+    expandable: true,
+    items: [
+      { title: "Telephony - الاتصالات", href: "https://erp.alazab.com/app/telephony", icon: Phone, description: "إدارة المكالمات والاتصالات", external: true },
+      { title: "Mail - البريد", href: "https://erp.alazab.com/app/mail", icon: Mail, description: "البريد الإلكتروني المؤسسي", external: true },
+      { title: "Helpdesk - الدعم الفني", href: "https://erp.alazab.com/app/helpdesk", icon: HeadphonesIcon, description: "تذاكر الدعم الفني", external: true },
+      { title: "Raven - الرسائل", href: "https://erp.alazab.com/app/raven", icon: MessageCircle, description: "الرسائل الداخلية", external: true },
+      { title: "AzaBot - واتساب", href: "https://erp.alazab.com/app/whatsapp", icon: MessageSquare, description: "تشاتبوت واتساب الذكي", external: true, badge: "AI" },
+    ]
+  },
+  {
+    title: "المالية والمدفوعات",
+    expandable: true,
+    items: [
+      { title: "Payments - المدفوعات", href: "https://erp.alazab.com/app/payments", icon: DollarSign, description: "بوابات الدفع الإلكتروني", external: true },
+      { title: "Azab Tax - الضرائب", href: "https://erp.alazab.com/app/tax", icon: FileText, description: "الامتثال الضريبي المصري", external: true },
+    ]
+  },
+  {
+    title: "التحليلات والتقارير",
+    expandable: true,
+    items: [
+      { title: "Insights - التحليلات", href: "https://erp.alazab.com/app/insights", icon: BarChart3, description: "تقارير وتحليلات متقدمة", external: true },
+      { title: "LMS - التعلم", href: "https://erp.alazab.com/app/lms", icon: Award, description: "نظام إدارة التعلم", external: true },
+    ]
+  },
+  {
+    title: "التصميم والبناء",
+    expandable: true,
+    items: [
+      { title: "Builder - المنشئ", href: "https://erp.alazab.com/app/builder", icon: Hammer, description: "بناء الصفحات", external: true },
+      { title: "Print Designer - الطباعة", href: "https://erp.alazab.com/app/print-designer", icon: Printer, description: "تصميم قوالب الطباعة", external: true },
+      { title: "GamePlan - المشاريع", href: "https://erp.alazab.com/app/gameplan", icon: Target, description: "إدارة خطط المشاريع", external: true },
+    ]
+  },
+  {
+    title: "التجارة والذكاء الاصطناعي",
+    expandable: true,
+    items: [
+      { title: "Azab Store - المتجر", href: "https://erp.alazab.com/app/ecommerce", icon: Briefcase, description: "التجارة الإلكترونية", external: true },
+      { title: "AI Core - الذكاء الاصطناعي", href: "https://erp.alazab.com/app/ai", icon: TrendingUp, description: "محرك الذكاء الاصطناعي", external: true, badge: "AI" },
     ]
   }
 ];
@@ -124,7 +158,6 @@ const futureSections: SidebarSection[] = [
     title: "ميزات قادمة",
     items: [
       { title: "حاسبة التكلفة", href: "#", icon: Calculator, description: "احسب تكلفة مشروعك", comingSoon: true },
-      { title: "معرض الصور", href: "#", icon: Camera, description: "صور عالية الجودة لمشاريعنا", comingSoon: true },
       { title: "شهادات الجودة", href: "#", icon: Award, description: "شهاداتنا ومعاييرنا", comingSoon: true },
       { title: "رؤيتنا", href: "#", icon: Target, description: "رؤية ومهمة الشركة", comingSoon: true },
     ]
@@ -257,15 +290,20 @@ export const AdvancedSidebar: React.FC<AdvancedSidebarProps> = ({ onClose }) => 
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex-1 overflow-y-auto p-4 space-y-6">
         {/* Main Sections */}
         {mainSections.map(renderSection)}
         
         <Separator className="my-4" />
         
-        {/* Applications Sections */}
-        {applicationsSections.map(renderSection)}
+        {/* ERP Apps Sections */}
+        <div className="bg-gradient-to-br from-construction-primary/5 to-construction-accent/5 rounded-lg p-3">
+          <h3 className="text-sm font-bold text-construction-primary mb-3 flex items-center gap-2">
+            <Building className="w-4 h-4" />
+            تطبيقات نظام ERP
+          </h3>
+          {erpAppsSections.map(renderSection)}
+        </div>
         
         <Separator className="my-4" />
         

@@ -10,6 +10,9 @@ import { PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line, XAxis, YAxis
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '../components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { Database } from '@/integrations/supabase/types';
+
+type MrStatus = Database['public']['Enums']['mr_status'];
 
 interface MaintenanceStats {
   totalRequests: number;
@@ -22,7 +25,7 @@ interface MaintenanceRequest {
   id: string;
   title: string;
   service_type: string;
-  status: string;
+  status: MrStatus;
   created_at: string;
   location: string;
 }
@@ -57,11 +60,11 @@ const MaintenanceReports: React.FC = () => {
 
       if (error) throw error;
 
-      // Calculate stats
+      // Calculate stats - using the actual enum values
       const total = requests?.length || 0;
-      const pending = requests?.filter(r => r.status === 'pending').length || 0;
-      const inProgress = requests?.filter(r => r.status === 'in_progress').length || 0;
-      const completed = requests?.filter(r => r.status === 'completed').length || 0;
+      const pending = requests?.filter(r => r.status === 'Open' || r.status === 'Waiting').length || 0;
+      const inProgress = requests?.filter(r => r.status === 'InProgress' || r.status === 'Assigned').length || 0;
+      const completed = requests?.filter(r => r.status === 'Completed').length || 0;
 
       setStats({
         totalRequests: total,
@@ -72,8 +75,8 @@ const MaintenanceReports: React.FC = () => {
 
       setRecentRequests((requests || []).map(req => ({
         ...req,
+        service_type: req.service_type || 'غير محدد',
         location: req.location || '',
-        attachments: []
       })));
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -94,10 +97,13 @@ const MaintenanceReports: React.FC = () => {
 
   const getStatusBadge = (status: string) => {
     const statusMap: { [key: string]: { label: string; variant: "default" | "secondary" | "destructive" | "outline" } } = {
-      'pending': { label: 'في انتظار الموافقة', variant: 'secondary' },
-      'in_progress': { label: 'قيد التنفيذ', variant: 'default' },
-      'completed': { label: 'مكتمل', variant: 'outline' },
-      'cancelled': { label: 'ملغي', variant: 'destructive' }
+      'Open': { label: 'في انتظار الموافقة', variant: 'secondary' },
+      'InProgress': { label: 'قيد التنفيذ', variant: 'default' },
+      'Completed': { label: 'مكتمل', variant: 'outline' },
+      'Cancelled': { label: 'ملغي', variant: 'destructive' },
+      'Assigned': { label: 'معين', variant: 'default' },
+      'Waiting': { label: 'في الانتظار', variant: 'secondary' },
+      'Rejected': { label: 'مرفوض', variant: 'destructive' }
     };
     
     const statusInfo = statusMap[status] || { label: status, variant: 'secondary' as const };

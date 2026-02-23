@@ -1,57 +1,92 @@
-# Al-Azab Main Website + Routing Hub
+````md
+# Al-Azab Construction Management System (alazab.com)
 
-المشروع عبارة عن موقع React/Vite يمثل الواجهة التسويقية الرئيسية لشركة العزب، مع Hub للتوجيه إلى الأنظمة الداخلية عبر روابط خارجية فقط.
+نظام إدارة شامل لشركة العزب للمقاولات المتكاملة — **الموقع الرئيسي: https://alazab.com**
 
 ## Lines of Production
 
-1. **Luxury Finishing (تشطيبات سكني فاخر)**
-2. **Brand Identity (تأسيس وتجهيز وحدات تجارية/مؤسسية)**
-3. **UberFix (أعمال الصيانة المعمارية + SLA)**
-4. **Laban Al-Asfur / laban aleasfur (توريدات خامات البناء)**
+منصة موحّدة تُدار من خلال **الدومين الرئيسي** وتعمل كبوابة دخول واحدة، مع توجيه المستخدم إلى الخدمات المختلفة عبر الروابط والمسارات (Routing/Reverse Proxy).
 
-## المسارات الأساسية
+الخدمات التي يتم توجيهها مثالًا:
+- `/erp` نظام ERP
+- `/n8n` الأتمتة
+- `/mail` البريد
+- `/crm` إدارة العملاء
+- أي خدمات إضافية مستقبلًا بنفس الأسلوب
 
-- `/` الصفحة الرئيسية
-- `/services` عرض خطوط الإنتاج
-- `/production/luxury-finishing`
-- `/production/brand-identity`
-- `/production/uberfix`
-- `/production/laban-aleasfur`
-- `/systems` أو `/hub` بوابة الأنظمة الداخلية
-- مسارات تحويل مباشرة: `/erp` `/crm` `/mail` `/n8n`
+## الفكرة الأساسية
 
-## Local Development (pnpm)
+- **alazab.com** هو **المدخل الرئيسي** (Portal / Landing / Gateway).
+- الموقع الرئيسي **معزول** عن أي نظام تشغيلي داخلي (مثل Frappe/ERPNext) ولا يعتمد عليه.
+- كل نظام داخلي يعمل كخدمة مستقلة خلف البوابة.
+- التوجيه يتم عبر:
+  - **مسارات**: `alazab.com/erp`
+  - أو **Subdomains**: `erp.alazab.com`
+  
+> المهم: المستخدم يرى “بوابة واحدة” بينما التنفيذ الداخلي قابل للتبديل دون تغيير تجربة المستخدم.
 
-```bash
-pnpm install
-pnpm dev
-pnpm build
-```
+## بنية المشروع
 
-## Routing Approach
+```text
+alazab-portal/                          # المجلد الرئيسي للبوابة
+├── public/                             # أصول ثابتة
+│   ├── css/
+│   │   └── azab_theme.css
+│   └── js/
+│       ├── azab_about.js
+│       ├── azab_contact.js
+│       ├── azab_projects.js
+│       └── azab_services.js
+├── templates/                          # قوالب صفحات البوابة
+│   ├── includes/
+│   │   └── azab_sidebar.html
+│   └── pages/
+│       ├── azab_about.html
+│       ├── azab_contact.html
+│       ├── azab_projects.html
+│       └── azab_services.html
+└── README.md                           # هذا الملف
+````
 
-- الموقع الرئيسي **لا يستضيف** الأنظمة الداخلية.
-- يتم الوصول إلى ERP/CRM/HR/Mail/Helpdesk/n8n عبر روابط خارجية مركزية داخل `src/config/links.ts`.
-- مسارات التحويل (`/erp` ... إلخ) تستخدم `window.location.replace`.
+## خريطة الروابط (Routing Map)
 
-## Environment Variables
+> هذه هي نقطة الربط بين “الموقع الرئيسي” وكل الأنظمة بدون أي اقتران مباشر.
 
-انسخ ملف المثال واملأ القيم:
+* **الرئيسي (Portal):** `/`
+* **ERP:** `/erp`
+* **n8n:** `/n8n`
+* **Mail:** `/mail`
+* **CRM:** `/crm`
+* **Helpdesk:** `/helpdesk`
+* **Insights/BI:** `/insights`
 
-```bash
-cp .env.example .env
-```
+## سياسة التوجيه
 
-- `VITE_SITE_CANONICAL` (default: `https://al-azab.co`)
-- `VITE_SUPABASE_URL`
-- `VITE_SUPABASE_ANON_KEY`
+* كل مسار في `alazab.com/*` يوجّه إلى خدمة مستقلة (Reverse Proxy).
+* يمكن نقل أي خدمة أو تغيير مزود الاستضافة دون تغيير الروابط العامة للمستخدم.
+* يُفضّل تثبيت المسارات للمستخدمين (Stable URLs) كمرجع دائم داخل النظام.
 
-> لا تضع أي أسرار داخل الكود.
+## ملاحظات مهمة
 
-## Brand Tokens
+1. **لا يوجد أي اعتماد على Frappe/Bench داخل البوابة.**
+2. الهدف من البوابة: **هوية + دخول موحّد + توجيه للخدمات**.
+3. يمكن توسيع النظام بإضافة خدمات جديدة بنفس النمط دون تغيير بنية البوابة.
+4. تجربة المستخدم يجب أن تبقى ثابتة حتى لو تغيّر التنفيذ الداخلي.
+
+## معلومات الاتصال
+
+**شركة العزب للمقاولات المتكاملة**
+
+* **الموقع الرئيسي:** [https://alazab.com](https://alazab.com)
+* الموقع التعريفي: [https://al-azab.co](https://al-azab.co)
+* البريد الإلكتروني: [info@al-azab.co](mailto:info@al-azab.co)
 
 - Background: `#111111`
 - Accent: `#f5bf23`
 - Font: `Cairo`
 - Logo on dark background: `https://al-azab.co/w.png`
 
+تم التطوير بواسطة فريق العزب للمقاولات المتكاملة.
+
+```
+```

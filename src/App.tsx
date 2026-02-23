@@ -31,8 +31,7 @@ import GeneralSuppliesPage from "./pages/services/GeneralSuppliesPage";
 import MaintenanceRenovationPage from "./pages/services/MaintenanceRenovationPage";
 import BrandIdentityPage from "./pages/services/BrandIdentityPage";
 import LuxuryCleaningPage from "./pages/services/LuxuryCleaningPage";
-import { LINKS } from "./config/links";
-import "./App.css";
+import Portfolio from "./pages/Portfolio";
 
 function App() {
   return (
@@ -73,8 +72,21 @@ function App() {
         <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
         <Route path="/projects-gallery" element={<ProjectsShowcase />} />
         <Route path="/projects-gallery/:projectId" element={<ProjectStoryPage />} />
-        <Route path="/maintenance-request-details/:id" element={<ProtectedRoute><MaintenanceRequestDetails /></ProtectedRoute>} />
-        <Route path="/maintenance-reports" element={<ProtectedRoute><MaintenanceReports /></ProtectedRoute>} />
+        <Route path="/services/general-supplies" element={<GeneralSuppliesPage />} />
+        <Route path="/services/maintenance-renovation" element={<MaintenanceRenovationPage />} />
+        <Route path="/services/brand-identity" element={<BrandIdentityPage />} />
+        <Route path="/services/luxury-cleaning" element={<LuxuryCleaningPage />} />
+        <Route path="/maintenance-request-details/:id" element={
+          <ProtectedRoute>
+            <MaintenanceRequestDetails />
+          </ProtectedRoute>
+        } />
+        <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/maintenance-reports" element={
+          <ProtectedRoute>
+            <MaintenanceReports />
+          </ProtectedRoute>
+        } />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Toaster />
