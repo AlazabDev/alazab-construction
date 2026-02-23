@@ -1,83 +1,30 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Truck, Hammer, Palette, Home } from "lucide-react";
+import { productionLines } from "@/data/productionLines";
 
-const premiumServices = [
-  {
-    id: "general-supplies",
-    icon: Truck,
-    title: "توريدات عامة",
-    description: "حلول إمداد متكاملة لدعم جميع احتياجات مشروعك",
-    color: "bg-blue-50 text-blue-600",
-    route: "/services/general-supplies"
-  },
-  {
-    id: "maintenance-renovation",
-    icon: Hammer,
-    title: "الصيانة والتجديدات",
-    description: "حلول شاملة للحفاظ على مساندتك وتجديدها",
-    color: "bg-orange-50 text-orange-600",
-    route: "/services/maintenance-renovation"
-  },
-  {
-    id: "brand-identity",
-    icon: Palette,
-    title: "هوية العلامة التجارية",
-    description: "إنشاء منشآت مؤسسية تعكس هويتك التجارية",
-    color: "bg-purple-50 text-purple-600",
-    route: "/services/brand-identity"
-  },
-  {
-    id: "luxury-cleaning",
-    icon: Home,
-    title: "تنظيف فاخر",
-    description: "حلول تنظيف عالية الجودة لتحويل مساحتك إلى بيئة فريدة",
-    color: "bg-green-50 text-green-600",
-    route: "/services/luxury-cleaning"
-  },
-];
-
-const PremiumServices: React.FC = () => {
+const PremiumServices = () => {
   return (
-    <section className="py-16 bg-gradient-to-b from-gray-50 to-white" dir="rtl">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            خدماتنا المتميزة
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            اكتشف خدماتنا المصممة خصيصاً لتلبية احتياجاتك
-          </p>
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {premiumServices.map((service) => {
-            const IconComponent = service.icon;
+    <section className="bg-construction-dark py-16">
+      <div className="container">
+        <h2 className="mb-3 text-center text-3xl font-bold text-white">Lines of Production</h2>
+        <p className="mx-auto mb-10 max-w-3xl text-center text-construction-light">أربع خطوط إنتاج تشغيلية تغطي التنفيذ، التجهيز، الصيانة التعاقدية، والتوريد.</p>
+        <div className="grid gap-6 md:grid-cols-2">
+          {productionLines.map((line) => {
+            const Icon = line.icon;
             return (
-              <Card key={service.id} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white">
-                <CardHeader className="text-center pb-4">
-                  <div className={`w-16 h-16 rounded-full ${service.color} mx-auto mb-4 flex items-center justify-center`}>
-                    <IconComponent className="w-8 h-8" />
+              <Card key={line.slug} className="border-construction-muted bg-[#181818] text-white">
+                <CardHeader>
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-construction-accent text-black">
+                    <Icon className="h-6 w-6" />
                   </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 mb-2">
-                    {service.title}
-                  </CardTitle>
+                  <CardTitle>{line.title}</CardTitle>
+                  <p className="text-sm text-construction-light" dir="ltr">{line.englishTitle}</p>
                 </CardHeader>
-                <CardContent className="text-center">
-                  <CardDescription className="text-gray-600 mb-6 leading-relaxed">
-                    {service.description}
-                  </CardDescription>
-                  <Button 
-                    asChild
-                    className="w-full bg-black hover:bg-gray-800 text-white rounded-full transition-all duration-200"
-                  >
-                    <Link to={service.route}>
-                      جدا أكثر
-                    </Link>
+                <CardContent className="space-y-4">
+                  <p className="text-sm text-construction-light">{line.description}</p>
+                  <Button asChild className="bg-construction-accent text-black hover:bg-construction-accent/90">
+                    <Link to={`/production/${line.slug}`}>عرض تفاصيل الخط</Link>
                   </Button>
                 </CardContent>
               </Card>
