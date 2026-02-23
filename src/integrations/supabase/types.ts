@@ -87,6 +87,27 @@ export type Database = {
         }
         Relationships: []
       }
+      app_secrets: {
+        Row: {
+          encrypted: boolean | null
+          key: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          encrypted?: boolean | null
+          key: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          encrypted?: boolean | null
+          key?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
       app_settings: {
         Row: {
           allow_edit_after_start: boolean | null
@@ -1206,6 +1227,45 @@ export type Database = {
           },
         ]
       }
+      facebook_users: {
+        Row: {
+          access_token: string | null
+          created_at: string | null
+          email: string | null
+          facebook_id: string
+          id: string
+          last_login_at: string | null
+          name: string
+          picture_url: string | null
+          supabase_user_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          access_token?: string | null
+          created_at?: string | null
+          email?: string | null
+          facebook_id: string
+          id?: string
+          last_login_at?: string | null
+          name: string
+          picture_url?: string | null
+          supabase_user_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          access_token?: string | null
+          created_at?: string | null
+          email?: string | null
+          facebook_id?: string
+          id?: string
+          last_login_at?: string | null
+          name?: string
+          picture_url?: string | null
+          supabase_user_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       gallery_images: {
         Row: {
           category: string
@@ -1429,6 +1489,134 @@ export type Database = {
         }
         Relationships: []
       }
+      maintenance_contracts: {
+        Row: {
+          auto_renew: boolean | null
+          billing_type: Database["public"]["Enums"]["contract_billing_type"]
+          branch_id: string | null
+          client_email: string | null
+          client_name: string
+          client_phone: string | null
+          company_id: string
+          contract_number: string
+          contract_value: number | null
+          covered_services: string[] | null
+          created_at: string
+          created_by: string | null
+          description: string | null
+          discount_percentage: number | null
+          end_date: string
+          excluded_services: string[] | null
+          id: string
+          includes_parts: boolean | null
+          internal_notes: string | null
+          max_requests: number | null
+          property_id: string | null
+          renewal_reminder_days: number | null
+          sla_resolution_hours: number | null
+          sla_response_hours: number | null
+          start_date: string
+          status: Database["public"]["Enums"]["contract_status"]
+          terms_and_conditions: string | null
+          title: string
+          updated_at: string
+          used_requests: number | null
+        }
+        Insert: {
+          auto_renew?: boolean | null
+          billing_type?: Database["public"]["Enums"]["contract_billing_type"]
+          branch_id?: string | null
+          client_email?: string | null
+          client_name: string
+          client_phone?: string | null
+          company_id: string
+          contract_number: string
+          contract_value?: number | null
+          covered_services?: string[] | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_percentage?: number | null
+          end_date: string
+          excluded_services?: string[] | null
+          id?: string
+          includes_parts?: boolean | null
+          internal_notes?: string | null
+          max_requests?: number | null
+          property_id?: string | null
+          renewal_reminder_days?: number | null
+          sla_resolution_hours?: number | null
+          sla_response_hours?: number | null
+          start_date: string
+          status?: Database["public"]["Enums"]["contract_status"]
+          terms_and_conditions?: string | null
+          title: string
+          updated_at?: string
+          used_requests?: number | null
+        }
+        Update: {
+          auto_renew?: boolean | null
+          billing_type?: Database["public"]["Enums"]["contract_billing_type"]
+          branch_id?: string | null
+          client_email?: string | null
+          client_name?: string
+          client_phone?: string | null
+          company_id?: string
+          contract_number?: string
+          contract_value?: number | null
+          covered_services?: string[] | null
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          discount_percentage?: number | null
+          end_date?: string
+          excluded_services?: string[] | null
+          id?: string
+          includes_parts?: boolean | null
+          internal_notes?: string | null
+          max_requests?: number | null
+          property_id?: string | null
+          renewal_reminder_days?: number | null
+          sla_resolution_hours?: number | null
+          sla_response_hours?: number | null
+          start_date?: string
+          status?: Database["public"]["Enums"]["contract_status"]
+          terms_and_conditions?: string | null
+          title?: string
+          updated_at?: string
+          used_requests?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_contracts_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "branches"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_contracts_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_contracts_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "maintenance_contracts_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties_qr_public"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       maintenance_requests: {
         Row: {
           actual_cost: number | null
@@ -1443,6 +1631,7 @@ export type Database = {
           client_name: string | null
           client_phone: string | null
           company_id: string
+          contract_id: string | null
           created_at: string
           created_by: string | null
           customer_notes: string | null
@@ -1487,6 +1676,7 @@ export type Database = {
           client_name?: string | null
           client_phone?: string | null
           company_id: string
+          contract_id?: string | null
           created_at?: string
           created_by?: string | null
           customer_notes?: string | null
@@ -1531,6 +1721,7 @@ export type Database = {
           client_name?: string | null
           client_phone?: string | null
           company_id?: string
+          contract_id?: string | null
           created_at?: string
           created_by?: string | null
           customer_notes?: string | null
@@ -1648,6 +1839,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "maintenance_requests_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "maintenance_contracts"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "maintenance_requests_property_id_fkey"
             columns: ["property_id"]
             isOneToOne: false
@@ -1662,6 +1860,98 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      maintenance_requests_archive: {
+        Row: {
+          actual_cost: number | null
+          assigned_to: string | null
+          completion_date: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          estimated_cost: number | null
+          id: string
+          is_deleted: boolean | null
+          primary_service_id: string | null
+          priority: string | null
+          scheduled_date: string | null
+          service_type: string | null
+          status: string | null
+          store_id: string | null
+          title: string
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          actual_cost?: number | null
+          assigned_to?: string | null
+          completion_date?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          estimated_cost?: number | null
+          id?: string
+          is_deleted?: boolean | null
+          primary_service_id?: string | null
+          priority?: string | null
+          scheduled_date?: string | null
+          service_type?: string | null
+          status?: string | null
+          store_id?: string | null
+          title: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          actual_cost?: number | null
+          assigned_to?: string | null
+          completion_date?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          estimated_cost?: number | null
+          id?: string
+          is_deleted?: boolean | null
+          primary_service_id?: string | null
+          priority?: string | null
+          scheduled_date?: string | null
+          service_type?: string | null
+          status?: string | null
+          store_id?: string | null
+          title?: string
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "maintenance_requests_archive_store_id_fkey"
+            columns: ["store_id"]
+            isOneToOne: false
+            referencedRelation: "stores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      malls: {
+        Row: {
+          id: number
+          location: string | null
+          name: string
+          type: string | null
+        }
+        Insert: {
+          id?: number
+          location?: string | null
+          name: string
+          type?: string | null
+        }
+        Update: {
+          id?: number
+          location?: string | null
+          name?: string
+          type?: string | null
+        }
+        Relationships: []
       }
       media_files: {
         Row: {
@@ -2569,6 +2859,42 @@ export type Database = {
           },
         ]
       }
+      rate_items: {
+        Row: {
+          after_hours_hourly: number | null
+          id: number
+          min_billable_hours: number | null
+          min_invoice: number | null
+          normal_hourly: number | null
+          notes: string | null
+          rate_card_id: string | null
+          trade_id: number | null
+          trip_charge: number | null
+        }
+        Insert: {
+          after_hours_hourly?: number | null
+          id?: number
+          min_billable_hours?: number | null
+          min_invoice?: number | null
+          normal_hourly?: number | null
+          notes?: string | null
+          rate_card_id?: string | null
+          trade_id?: number | null
+          trip_charge?: number | null
+        }
+        Update: {
+          after_hours_hourly?: number | null
+          id?: number
+          min_billable_hours?: number | null
+          min_invoice?: number | null
+          normal_hourly?: number | null
+          notes?: string | null
+          rate_card_id?: string | null
+          trade_id?: number | null
+          trip_charge?: number | null
+        }
+        Relationships: []
+      }
       request_approvals: {
         Row: {
           approval_type: string
@@ -3005,6 +3331,66 @@ export type Database = {
           name?: string
           name_ar?: string
           sort_order?: number | null
+        }
+        Relationships: []
+      }
+      stores: {
+        Row: {
+          area: number | null
+          category: string | null
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          email: string | null
+          id: string
+          is_deleted: boolean | null
+          location: string | null
+          map_url: string | null
+          name: string
+          opening_date: string | null
+          phone: string | null
+          region_id: string | null
+          status: string | null
+          updated_at: string | null
+          updated_by: string | null
+        }
+        Insert: {
+          area?: number | null
+          category?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          email?: string | null
+          id?: string
+          is_deleted?: boolean | null
+          location?: string | null
+          map_url?: string | null
+          name: string
+          opening_date?: string | null
+          phone?: string | null
+          region_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+        }
+        Update: {
+          area?: number | null
+          category?: string | null
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          email?: string | null
+          id?: string
+          is_deleted?: boolean | null
+          location?: string | null
+          map_url?: string | null
+          name?: string
+          opening_date?: string | null
+          phone?: string | null
+          region_id?: string | null
+          status?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
         }
         Relationships: []
       }
@@ -4742,6 +5128,13 @@ export type Database = {
             foreignKeyName: "technician_withdrawals_processed_by_fkey"
             columns: ["processed_by"]
             isOneToOne: false
+            referencedRelation: "profiles_minimal_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "technician_withdrawals_processed_by_fkey"
+            columns: ["processed_by"]
+            isOneToOne: false
             referencedRelation: "profiles_public_safe"
             referencedColumns: ["id"]
           },
@@ -4940,6 +5333,111 @@ export type Database = {
           },
         ]
       }
+      ufbot_conversations: {
+        Row: {
+          created_at: string
+          id: string
+          messages: Json
+          session_id: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          messages?: Json
+          session_id: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          messages?: Json
+          session_id?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      ufbot_knowledge_entries: {
+        Row: {
+          answer: string
+          category: string
+          created_at: string
+          created_by: string | null
+          id: string
+          is_active: boolean
+          keywords: string[] | null
+          question: string | null
+          sort_order: number | null
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          keywords?: string[] | null
+          question?: string | null
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          category?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          is_active?: boolean
+          keywords?: string[] | null
+          question?: string | null
+          sort_order?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ufbot_knowledge_files: {
+        Row: {
+          created_at: string
+          file_size: number | null
+          file_type: string
+          file_url: string
+          id: string
+          is_active: boolean
+          text_content: string | null
+          title: string
+          updated_at: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_size?: number | null
+          file_type?: string
+          file_url: string
+          id?: string
+          is_active?: boolean
+          text_content?: string | null
+          title: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_size?: number | null
+          file_type?: string
+          file_url?: string
+          id?: string
+          is_active?: boolean
+          text_content?: string | null
+          title?: string
+          updated_at?: string
+          uploaded_by?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           assigned_at: string | null
@@ -5074,6 +5572,573 @@ export type Database = {
           version?: number
         }
         Relationships: []
+      }
+      wa_api_keys: {
+        Row: {
+          created_at: string | null
+          id: string
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          project_id: string
+          revoked_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name: string
+          project_id: string
+          revoked_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          project_id?: string
+          revoked_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_api_keys_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_contacts: {
+        Row: {
+          created_at: string | null
+          display_name: string | null
+          id: string
+          last_seen_at: string | null
+          phone: string
+          project_id: string
+          wa_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          last_seen_at?: string | null
+          phone: string
+          project_id: string
+          wa_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          last_seen_at?: string | null
+          phone?: string
+          project_id?: string
+          wa_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_contacts_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_conversations: {
+        Row: {
+          assigned_to: string | null
+          contact_id: string
+          created_at: string | null
+          id: string
+          last_message_at: string | null
+          phone_number_id: string | null
+          project_id: string
+          status: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          contact_id: string
+          created_at?: string | null
+          id?: string
+          last_message_at?: string | null
+          phone_number_id?: string | null
+          project_id: string
+          status?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          contact_id?: string
+          created_at?: string | null
+          id?: string
+          last_message_at?: string | null
+          phone_number_id?: string | null
+          project_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_conversations_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "wa_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wa_conversations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_flows: {
+        Row: {
+          created_at: string | null
+          flow_json: Json | null
+          id: string
+          meta_flow_id: string | null
+          name: string
+          project_id: string
+          status: string | null
+          updated_at: string | null
+          version: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          flow_json?: Json | null
+          id?: string
+          meta_flow_id?: string | null
+          name: string
+          project_id: string
+          status?: string | null
+          updated_at?: string | null
+          version?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          flow_json?: Json | null
+          id?: string
+          meta_flow_id?: string | null
+          name?: string
+          project_id?: string
+          status?: string | null
+          updated_at?: string | null
+          version?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_flows_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_media: {
+        Row: {
+          created_at: string | null
+          deleted_at: string | null
+          filename: string | null
+          id: string
+          media_type: string | null
+          message_id: string | null
+          mime_type: string | null
+          phone_number_id: string | null
+          project_id: string
+          received_at: string | null
+          size_bytes: number | null
+          storage_path: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          deleted_at?: string | null
+          filename?: string | null
+          id?: string
+          media_type?: string | null
+          message_id?: string | null
+          mime_type?: string | null
+          phone_number_id?: string | null
+          project_id: string
+          received_at?: string | null
+          size_bytes?: number | null
+          storage_path?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          deleted_at?: string | null
+          filename?: string | null
+          id?: string
+          media_type?: string | null
+          message_id?: string | null
+          mime_type?: string | null
+          phone_number_id?: string | null
+          project_id?: string
+          received_at?: string | null
+          size_bytes?: number | null
+          storage_path?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_media_message_id_fkey"
+            columns: ["message_id"]
+            isOneToOne: false
+            referencedRelation: "wa_messages"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wa_media_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_messages: {
+        Row: {
+          body: string | null
+          contact_id: string | null
+          contact_name: string | null
+          conversation_id: string | null
+          created_at: string | null
+          direction: string
+          id: string
+          media_id: string | null
+          meta_message_id: string | null
+          msg_type: string | null
+          phone: string | null
+          project_id: string
+          status: string | null
+        }
+        Insert: {
+          body?: string | null
+          contact_id?: string | null
+          contact_name?: string | null
+          conversation_id?: string | null
+          created_at?: string | null
+          direction: string
+          id?: string
+          media_id?: string | null
+          meta_message_id?: string | null
+          msg_type?: string | null
+          phone?: string | null
+          project_id: string
+          status?: string | null
+        }
+        Update: {
+          body?: string | null
+          contact_id?: string | null
+          contact_name?: string | null
+          conversation_id?: string | null
+          created_at?: string | null
+          direction?: string
+          id?: string
+          media_id?: string | null
+          meta_message_id?: string | null
+          msg_type?: string | null
+          phone?: string | null
+          project_id?: string
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_messages_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "wa_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wa_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "wa_conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wa_messages_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_numbers: {
+        Row: {
+          activated_at: string | null
+          activation_code: string | null
+          created_at: string | null
+          display_number: string
+          id: string
+          number_type: string | null
+          phone_number_id: string | null
+          project_id: string
+          status: string | null
+          waba_id: string | null
+        }
+        Insert: {
+          activated_at?: string | null
+          activation_code?: string | null
+          created_at?: string | null
+          display_number: string
+          id?: string
+          number_type?: string | null
+          phone_number_id?: string | null
+          project_id: string
+          status?: string | null
+          waba_id?: string | null
+        }
+        Update: {
+          activated_at?: string | null
+          activation_code?: string | null
+          created_at?: string | null
+          display_number?: string
+          id?: string
+          number_type?: string | null
+          phone_number_id?: string | null
+          project_id?: string
+          status?: string | null
+          waba_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_numbers_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_projects: {
+        Row: {
+          created_at: string | null
+          created_by: string | null
+          id: string
+          name: string
+          slug: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          name: string
+          slug: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      wa_template_events: {
+        Row: {
+          actor_id: string | null
+          correlation_id: string | null
+          created_at: string
+          error_message: string | null
+          event_source: string
+          event_type: string
+          id: string
+          metadata: Json | null
+          new_quality: Database["public"]["Enums"]["wa_template_quality"] | null
+          new_status: Database["public"]["Enums"]["wa_template_status"] | null
+          old_quality: Database["public"]["Enums"]["wa_template_quality"] | null
+          old_status: Database["public"]["Enums"]["wa_template_status"] | null
+          template_id: string
+          tenant_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          event_source?: string
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          new_quality?:
+            | Database["public"]["Enums"]["wa_template_quality"]
+            | null
+          new_status?: Database["public"]["Enums"]["wa_template_status"] | null
+          old_quality?:
+            | Database["public"]["Enums"]["wa_template_quality"]
+            | null
+          old_status?: Database["public"]["Enums"]["wa_template_status"] | null
+          template_id: string
+          tenant_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          correlation_id?: string | null
+          created_at?: string
+          error_message?: string | null
+          event_source?: string
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          new_quality?:
+            | Database["public"]["Enums"]["wa_template_quality"]
+            | null
+          new_status?: Database["public"]["Enums"]["wa_template_status"] | null
+          old_quality?:
+            | Database["public"]["Enums"]["wa_template_quality"]
+            | null
+          old_status?: Database["public"]["Enums"]["wa_template_status"] | null
+          template_id?: string
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_template_events_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "wa_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wa_templates: {
+        Row: {
+          approved_at: string | null
+          body_text: string
+          buttons: Json | null
+          category: Database["public"]["Enums"]["wa_template_category"]
+          components: Json | null
+          created_at: string
+          created_by: string | null
+          footer_text: string | null
+          header_content: string | null
+          header_media_url: string | null
+          header_type: string | null
+          id: string
+          is_locked: boolean
+          language: string
+          meta_template_id: string | null
+          meta_template_name: string | null
+          name: string
+          quality: Database["public"]["Enums"]["wa_template_quality"] | null
+          quality_reason: string | null
+          rejected_at: string | null
+          rejection_reason: string | null
+          status: Database["public"]["Enums"]["wa_template_status"]
+          submitted_at: string | null
+          tenant_id: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          approved_at?: string | null
+          body_text: string
+          buttons?: Json | null
+          category?: Database["public"]["Enums"]["wa_template_category"]
+          components?: Json | null
+          created_at?: string
+          created_by?: string | null
+          footer_text?: string | null
+          header_content?: string | null
+          header_media_url?: string | null
+          header_type?: string | null
+          id?: string
+          is_locked?: boolean
+          language?: string
+          meta_template_id?: string | null
+          meta_template_name?: string | null
+          name: string
+          quality?: Database["public"]["Enums"]["wa_template_quality"] | null
+          quality_reason?: string | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["wa_template_status"]
+          submitted_at?: string | null
+          tenant_id: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          approved_at?: string | null
+          body_text?: string
+          buttons?: Json | null
+          category?: Database["public"]["Enums"]["wa_template_category"]
+          components?: Json | null
+          created_at?: string
+          created_by?: string | null
+          footer_text?: string | null
+          header_content?: string | null
+          header_media_url?: string | null
+          header_type?: string | null
+          id?: string
+          is_locked?: boolean
+          language?: string
+          meta_template_id?: string | null
+          meta_template_name?: string | null
+          name?: string
+          quality?: Database["public"]["Enums"]["wa_template_quality"] | null
+          quality_reason?: string | null
+          rejected_at?: string | null
+          rejection_reason?: string | null
+          status?: Database["public"]["Enums"]["wa_template_status"]
+          submitted_at?: string | null
+          tenant_id?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
+      wa_webhooks: {
+        Row: {
+          created_at: string | null
+          enabled: boolean | null
+          events: string[] | null
+          id: string
+          project_id: string
+          secret: string | null
+          url: string
+        }
+        Insert: {
+          created_at?: string | null
+          enabled?: boolean | null
+          events?: string[] | null
+          id?: string
+          project_id: string
+          secret?: string | null
+          url: string
+        }
+        Update: {
+          created_at?: string | null
+          enabled?: boolean | null
+          events?: string[] | null
+          id?: string
+          project_id?: string
+          secret?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wa_webhooks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "wa_projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       whatsapp_media_storage: {
         Row: {
@@ -5499,6 +6564,38 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles_minimal_public: {
+        Row: {
+          company_id: string | null
+          created_at: string | null
+          full_name: string | null
+          id: string | null
+          role: string | null
+        }
+        Insert: {
+          company_id?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string | null
+          role?: string | null
+        }
+        Update: {
+          company_id?: string | null
+          created_at?: string | null
+          full_name?: string | null
+          id?: string | null
+          role?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles_public_safe: {
         Row: {
           avatar_url: string | null
@@ -5664,38 +6761,29 @@ export type Database = {
         Row: {
           city_id: number | null
           company_name: string | null
-          company_type: string | null
           created_at: string | null
-          district_id: number | null
-          full_name: string | null
+          email: string | null
           id: string | null
-          preferred_language: string | null
+          phone: string | null
           status: string | null
-          user_id: string | null
         }
         Insert: {
           city_id?: number | null
           company_name?: string | null
-          company_type?: string | null
           created_at?: string | null
-          district_id?: number | null
-          full_name?: string | null
+          email?: never
           id?: string | null
-          preferred_language?: string | null
+          phone?: never
           status?: string | null
-          user_id?: string | null
         }
         Update: {
           city_id?: number | null
           company_name?: string | null
-          company_type?: string | null
           created_at?: string | null
-          district_id?: number | null
-          full_name?: string | null
+          email?: never
           id?: string | null
-          preferred_language?: string | null
+          phone?: never
           status?: string | null
-          user_id?: string | null
         }
         Relationships: [
           {
@@ -5703,13 +6791,6 @@ export type Database = {
             columns: ["city_id"]
             isOneToOne: false
             referencedRelation: "cities"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "technician_profiles_district_id_fkey"
-            columns: ["district_id"]
-            isOneToOne: false
-            referencedRelation: "districts"
             referencedColumns: ["id"]
           },
         ]
@@ -6393,6 +7474,18 @@ export type Database = {
         | "finance"
       company_model_enum: "local_provider" | "third_party"
       company_type_enum: "individual" | "small_team" | "company"
+      contract_billing_type:
+        | "per_request"
+        | "monthly"
+        | "quarterly"
+        | "semi_annual"
+        | "annual"
+      contract_status:
+        | "draft"
+        | "active"
+        | "expired"
+        | "suspended"
+        | "cancelled"
       document_type_enum:
         | "tax_card"
         | "commercial_registration"
@@ -6477,6 +7570,17 @@ export type Database = {
         | "feedback"
         | "payment"
         | "note"
+      wa_template_category: "utility" | "marketing" | "authentication"
+      wa_template_quality: "unknown" | "high" | "medium" | "low"
+      wa_template_status:
+        | "draft"
+        | "submitted"
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "paused"
+        | "disabled"
+        | "deleted"
       wo_status:
         | "Pending"
         | "Scheduled"
@@ -6628,6 +7732,14 @@ export const Constants = {
       ],
       company_model_enum: ["local_provider", "third_party"],
       company_type_enum: ["individual", "small_team", "company"],
+      contract_billing_type: [
+        "per_request",
+        "monthly",
+        "quarterly",
+        "semi_annual",
+        "annual",
+      ],
+      contract_status: ["draft", "active", "expired", "suspended", "cancelled"],
       document_type_enum: [
         "tax_card",
         "commercial_registration",
@@ -6719,6 +7831,18 @@ export const Constants = {
         "feedback",
         "payment",
         "note",
+      ],
+      wa_template_category: ["utility", "marketing", "authentication"],
+      wa_template_quality: ["unknown", "high", "medium", "low"],
+      wa_template_status: [
+        "draft",
+        "submitted",
+        "pending",
+        "approved",
+        "rejected",
+        "paused",
+        "disabled",
+        "deleted",
       ],
       wo_status: [
         "Pending",
