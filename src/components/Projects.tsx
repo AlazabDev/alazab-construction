@@ -131,8 +131,8 @@ const Projects: React.FC = () => {
   return (
     <section id="projects" className="section bg-white">
       <div className="container mx-auto">
-        <h2 className="section-title">مشاريع من خطوط الإنتاج</h2>
-        <p className="section-subtitle">نماذج تنفيذ مرتبطة بالتشطيب الفاخر، تجهيز الهوية، الصيانة، والتوريد.</p>
+        <h2 className="section-title">مشاريعنا</h2>
+        <p className="section-subtitle">تصفح أحدث وأهم مشاريعنا المنفذة</p>
         
         {/* بحث وتصفية */}
         <div className="mb-12">
